@@ -1,0 +1,1011 @@
+<html>
+  <head>
+    <!-- JQuery Load -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- CSS Load -->
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>🎄2024 Advent Calendar 🎁</title>
+
+    <!-- Adobe Fonts 영어 폰트 임베드 -->
+    <link rel="stylesheet" href="https://use.typekit.net/keo8upg.css" />
+
+    <!-- 한글 폰트 스크립트 임베드 -->
+    <script>
+      (function (d) {
+        var config = {
+            kitId: "rcs5dnh",
+            scriptTimeout: 3000,
+            async: true,
+          },
+          h = d.documentElement,
+          t = setTimeout(function () {
+            h.className =
+              h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+          }, config.scriptTimeout),
+          tk = d.createElement("script"),
+          f = false,
+          s = d.getElementsByTagName("script")[0],
+          a;
+        h.className += " wf-loading";
+        tk.src = "https://use.typekit.net/" + config.kitId + ".js";
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+          a = this.readyState;
+          if (f || (a && a != "complete" && a != "loaded")) return;
+          f = true;
+          clearTimeout(t);
+          try {
+            Typekit.load(config);
+          } catch (e) {}
+        };
+        s.parentNode.insertBefore(tk, s);
+      })(document);
+    </script>
+
+    <!-- script.js Load -->
+    <script src="js/script.js"></script>
+  </head>
+  <body>
+    <!-- 전체 배경 이미지 -->
+    <div class="background-container">
+      <img
+        src="Christmas Village background.jpg"
+        alt="Christmas Village Background"
+        class="background-image"
+      />
+    </div>
+
+    <!-- 눈송이 이미지 추가 -->
+    <div class="overlay-container">
+      <img
+        src="Christmas snowflakes background red.png"
+        alt="Snowflakes Background"
+        class="snowflakes-image"
+      />
+    </div>
+
+    <div class="advent-calendar">
+      <div class="calendar-grid">
+        <!-- 날짜 박스 (1~24일) -->
+        <!-- 1일 날짜박스 -->
+        <div class="day door" data-day="1">
+          <!-- 문이 닫힌 상태에 표시될 이미지 -->
+          <img
+            src="./snowy_corner_pattern.png"
+            alt="1일 이미지"
+            class="door-image"
+          />
+          <img
+            src="./snowy_corner_pattern_2.png"
+            alt="1일 이미지 2"
+            class="door-image extra-image"
+          />
+          <img
+            src="./reindeer_with_scarf.png"
+            alt="1일 이미지 3"
+            class="door-image reindeer-image"
+          />
+
+          <!-- 숫자 -->
+          <span class="door-number">1</span>
+
+          <!-- 문 열린 상태에 표시될 콘텐츠 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <!-- 첫 번째 이미지: Cookie -->
+              <img
+                src="./Cookie.png"
+                alt="Cookie"
+                class="content-image cookie-image"
+              />
+
+              <!-- 두 번째 이미지: Tinsel -->
+              <img
+                src="./Tinsel.png"
+                alt="Tinsel"
+                class="content-image tinsel-image"
+              />
+
+              <!-- 세 번째 이미지: Cookie Wreath -->
+              <img
+                src="./_Cookie Wreath.png"
+                alt="Cookie Wreath"
+                class="content-image wreath-image"
+              />
+
+              <!-- 네 번째 이미지: Candy Cane -->
+              <img
+                src="./_Candy Cane.png"
+                alt="Candy Cane"
+                class="content-image candy-cane-image"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 2일 날짜박스 -->
+        <div class="day popup-box" data-day="2">
+          <!-- 첫 번째 이미지: 배경 이미지 -->
+          <img
+            src="./green_snowy_background.png"
+            alt="Green Snowy Background"
+            class="popup-image background-image"
+          />
+          <!-- 두 번째 이미지: 선물 상자 -->
+          <img
+            src="./stacked_gift_boxes.png"
+            alt="Stacked Gift Boxes"
+            class="popup-image gift-box-image"
+          />
+          <!-- 날짜 숫자 -->
+          <span class="door-number">2</span>
+        </div>
+
+        <!-- 3일 날짜박스 -->
+        <div class="day door" data-day="3">
+          <!-- 문이 닫힌 상태에 표시될 이미지 -->
+          <!-- 맨 앞에 표시될 프레임 -->
+          <img src="Last Frame.png" alt="Last Frame" class="background-frame" />
+
+          <!-- 첫 번째 이미지 -->
+          <img
+            src="classic_christmas_tree.png"
+            alt="classic christmas tree"
+            class="door-image tree-image-1"
+          />
+
+          <!-- 두 번째 이미지 -->
+          <img
+            src="decorated_christmas_tree.png"
+            alt="decorated christmas tree"
+            class="door-image tree-image-2"
+          />
+
+          <!-- 숫자 -->
+          <span class="door-number">3</span>
+
+          <!-- 문이 열린 상태에 표시될 이미지들 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <img
+                src="./Christmas_Garland_Border.png"
+                alt="Garland Border"
+                class="content-image garland-border"
+              />
+              <img
+                src="./Snowflake_Pattern_Background.png"
+                alt="Snowflake Background"
+                class="content-image snowflake-bg"
+              />
+              <img
+                src="./Fireplace.png"
+                alt="Fireplace"
+                class="content-image fireplace-image"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 4일차 날짜 박스 -->
+        <div class="day popup-box" data-day="4">
+          <!-- 문 닫힌 상태에 표시될 이미지 -->
+          <!-- 배경 이미지 추가 -->
+          <img
+            src="./tree_background.png"
+            alt="Tree Background"
+            class="popup-image tree-background"
+          />
+          <img
+            src="./christmas_ornament.png"
+            alt="Christmas Ornament"
+            class="popup-image ornament-image"
+          />
+          <img
+            src="./gold_snowflakes.png"
+            alt="Gold Snowflakes"
+            class="popup-image gold-snowflakes"
+          />
+          <img
+            src="./golden_snowflakes_2.png"
+            alt="Golden Snowflakes 2"
+            class="popup-image golden-snowflakes-2"
+          />
+
+          <!-- 숫자 -->
+          <span class="door-number">4</span>
+        </div>
+
+        <!-- 5일 날짜박스 -->
+        <div class="day door" data-day="5">
+          <!-- 눈사람 이미지 -->
+          <img
+            src="./snowman_with_hat_and_scarf.png"
+            alt="Snowman with Hat and Scarf"
+            class="door-image snowman-image"
+          />
+          <!-- 왼쪽 겨우살이 이미지 -->
+          <img
+            src="./mistletoe_corner_left.png"
+            alt="Mistletoe Corner Left"
+            class="door-image mistletoe-left-image"
+          />
+          <!-- 오른쪽 겨우살이 이미지 -->
+          <img
+            src="./mistletoe_corner_right.png"
+            alt="Mistletoe Corner Right"
+            class="door-image mistletoe-right-image"
+          />
+
+          <!-- 날짜 숫자 -->
+          <span class="door-number">5</span>
+
+          <!-- 문이 열릴 때 표시될 콘텐츠 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <!-- 문 열린 상태에 표시될 이미지들 -->
+              <img
+                src="./Christmas_Light_Pattern.png"
+                alt="빛 패턴"
+                class="content-image light-pattern"
+              />
+              <img
+                src="./Retro_Star_Border_1.png"
+                alt="별 테두리 1"
+                class="content-image star-border-1"
+              />
+              <img
+                src="./Retro_Star_Border_2.png"
+                alt="별 테두리 2"
+                class="content-image star-border-2"
+              />
+              <img
+                src="./Candy_Cane_Border.png"
+                alt="캔디 케인 테두리"
+                class="content-image candy-border"
+              />
+              <img
+                src="./elf.png"
+                alt="요정 이미지"
+                class="content-image elf-image"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 6일 날짜박스 -->
+        <div class="day popup-box" data-day="6">
+          <span class="door-number">6</span>
+          <img src="CandyCane.png" alt="Candy Cane" class="candy-cane" />
+          <img
+            src="Snowflake_RedGreen_Background.png"
+            alt="Snowflake Background"
+            class="snowflake-bg"
+          />
+          <img
+            src="Snowflake_RedGreen_Background_2.png"
+            alt="Snowflake Background 2"
+            class="snowflake-bg-2"
+          />
+          <img src="v_Pattern.png" alt="V Pattern" class="v-pattern" />
+        </div>
+
+        <!-- 7일 날짜박스 -->
+        <div class="day door" data-day="7">
+          <span class="door-number">7</span>
+          <!-- 처음 로딩 시 보이는 이미지들 -->
+          <img src="Ribbon_Frame.png" alt="Ribbon Frame" class="ribbon-frame" />
+          <img
+            src="scattered_snowflakes.png"
+            alt="Scattered Snowflakes"
+            class="snowflakes-bg"
+          />
+          <img
+            src="truck_with_christmas_tree.png"
+            alt="Truck with Christmas Tree"
+            class="truck-image"
+          />
+
+          <!-- 문 열림 후 보여질 콘텐츠 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <!-- Rocking Horse 이미지 -->
+              <img
+                src="Rocking_Horse.png"
+                alt="Rocking Horse"
+                class="content-image rocking-horse"
+              />
+              <!-- Ballerina Frame 이미지 -->
+              <img
+                src="Ballerina_Frame.png"
+                alt="Ballerina Frame"
+                class="content-image ballerina-frame"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 8일 날짜박스 -->
+        <div class="day popup-box" data-day="8">
+          <span class="door-number">8</span>
+          <!-- 리스 프레임 이미지 추가 -->
+          <img
+            src="Christmas_wreath_frame.png"
+            alt="Christmas Wreath Frame"
+            class="popup-image wreath-frame"
+          />
+          <!-- 첫 번째 이미지: Snowflake with Holly -->
+          <img
+            src="snowflake_with_holly.png"
+            alt="Snowflake with Holly"
+            class="popup-image snowflake-holly"
+          />
+          <!-- 두 번째 이미지: Holly Leaves and Berries -->
+          <img
+            src="holly_leaves_and_berries.png"
+            alt="Holly Leaves and Berries"
+            class="popup-image holly-berries"
+          />
+        </div>
+
+        <!-- 9일 날짜박스 -->
+        <div class="day door" data-day="9">
+          <span class="door-number">9</span>
+          <!-- 배경 이미지: Twinkling Stars -->
+          <img
+            src="scattered_twinkling_stars.png"
+            alt="Scattered Twinkling Stars"
+            class="twinkling-stars"
+          />
+          <!-- 중간 이미지: Cookie Frame -->
+          <img
+            src="Happy Cookie Frame.png"
+            alt="Happy Cookie Frame"
+            class="cookie-frame"
+          />
+          <!-- 최상단 이미지: Festive Ribbon Bow -->
+          <img
+            src="festive_ribbon_bow.png"
+            alt="Festive Ribbon Bow"
+            class="ribbon-bow"
+          />
+          <div class="door-content">
+            <div class="inner-box">
+              <!-- 첫 번째 이미지: Candy Cane Pattern -->
+              <img
+                src="Candy Cane Pattern.png"
+                alt="Candy Cane Pattern"
+                class="inner-image candy-cane-pattern"
+              />
+              <!-- 두 번째 이미지: Vintage Girl Christmas -->
+              <img
+                src="Vintage_Girl_Christmas.png"
+                alt="Vintage Girl Christmas"
+                class="inner-image vintage-girl"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 10일 날짜박스 -->
+        <div class="day popup-box" data-day="10">
+          <span class="door-number">10</span>
+          <!-- Red Stripe Frame -->
+          <img
+            src="Red_Stripe_Frame.png"
+            alt="Red Stripe Frame"
+            class="popup-image red-stripe-frame"
+          />
+          <!-- Santa Sack with Gifts -->
+          <img
+            src="santa_sack_with_gifts.png"
+            alt="Santa Sack with Gifts"
+            class="popup-image santa-sack"
+          />
+          <!-- White Snowflake 1 -->
+          <img
+            src="white_snowflake.png"
+            alt="White Snowflake"
+            class="popup-image snowflake-1"
+          />
+          <!-- White Snowflake 2 -->
+          <img
+            src="white_snowflake.png"
+            alt="White Snowflake"
+            class="popup-image snowflake-2"
+          />
+        </div>
+
+        <!-- 11일 날짜박스 -->
+        <div class="day door" data-day="11">
+          <span class="door-number">11</span>
+
+          <!-- 문 닫기 전 화면 -->
+          <img
+            src="blue_snowflakes_pattern.png"
+            alt="Blue Snowflakes Pattern"
+            class="door-image blue-snowflakes"
+          />
+          <img
+            src="White_Stars_Pattern.png"
+            alt="White Stars Pattern"
+            class="door-image white-stars"
+          />
+          <img
+            src="snow_globe_scene.png"
+            alt="Snow Globe Scene"
+            class="door-image snow-globe"
+          />
+
+          <!-- 문 열린 후 화면 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <img
+                src="Christmas_Pattern_RedGreen.png"
+                alt="Christmas Pattern Background"
+                class="content-image christmas-pattern"
+              />
+              <img
+                src="Nutcracker_Doll.png"
+                alt="Nutcracker Doll"
+                class="content-image nutcracker-doll"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 12일 날짜박스 -->
+        <!-- 12일 날짜박스 -->
+        <div class="day popup-box" data-day="12">
+          <span class="door-number">12</span>
+          <!-- Green Stripe Frame -->
+          <img
+            src="Green_Stripe_Frame.png"
+            alt="Green Stripe Frame"
+            class="green-stripe-frame"
+          />
+          <!-- Ceiling Twinkle Stars -->
+          <img
+            src="Ceiling_Twinkle_Stars.png"
+            alt="Ceiling Twinkle Stars"
+            class="ceiling-twinkle-stars"
+          />
+          <!-- Vintage Wreath -->
+          <img
+            src="Vintage_Wreath.png"
+            alt="Vintage Wreath"
+            class="vintage-wreath"
+          />
+        </div>
+
+        <!-- 13일 날짜박스 -->
+        <div class="day door" data-day="13">
+          <span class="door-number">13</span>
+          <!-- 문 닫기 전 화면 -->
+          <img
+            src="White_Snowflake_Stars_Pattern.png"
+            alt="Snowflake Stars Pattern"
+            class="snowflake-stars"
+          />
+          <img
+            src="detailed_white_snowflake.png"
+            alt="Snowflake"
+            class="detailed-snowflake snowflake-1"
+          />
+          <img
+            src="detailed_white_snowflake.png"
+            alt="Snowflake"
+            class="detailed-snowflake snowflake-2"
+          />
+          <img
+            src="detailed_white_snowflake.png"
+            alt="Snowflake"
+            class="detailed-snowflake snowflake-3"
+          />
+          <img
+            src="detailed_white_snowflake.png"
+            alt="Snowflake"
+            class="detailed-snowflake snowflake-4"
+          />
+          <img
+            src="holly_with_message.png"
+            alt="Holly Message"
+            class="holly-message"
+          />
+
+          <!-- 문 열린 후 화면 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <img
+                src="Falling_Blue_Snowflakes.png"
+                alt="Blue Snowflakes"
+                class="falling-snowflakes"
+              />
+              <img
+                src="Snowy_Village_Scene.png"
+                alt="Snowy Village Scene"
+                class="snowy-village"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 14일 날짜박스 -->
+        <div class="day popup-box" data-day="14">
+          <span class="door-number">14</span>
+          <!-- 눈 배경 이미지 -->
+          <img
+            src="falling_snow_dots.png"
+            alt="Falling Snow Dots"
+            class="falling-snow"
+          />
+          <!-- 크리스마스 양말 이미지 -->
+          <img
+            src="red_christmas_stocking.png"
+            alt="Red Christmas Stocking"
+            class="christmas-stocking"
+          />
+        </div>
+
+        <!-- 15일 날짜박스 -->
+        <div class="day door" data-day="15">
+          <span class="door-number">15</span>
+          <!-- 문 닫기 전 이미지 -->
+          <img
+            src="candy_cane_frame.png"
+            alt="Candy Cane Frame"
+            class="candy-cane-frame"
+          />
+          <img
+            src="golden_bells_with_ribbon.png"
+            alt="Golden Bells"
+            class="golden-bells"
+          />
+          <img
+            src="White_Stars_Pattern_2.png"
+            alt="White Stars Pattern"
+            class="white-stars"
+          />
+
+          <!-- 문 열린 후 화면 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <img
+                src="Gold_Snowflake_Pattern.png"
+                alt="Gold Snowflake Pattern"
+                class="gold-snowflake-bg"
+              />
+              <img
+                src="Bunny_Sugar_Cookie.png"
+                alt="Bunny Sugar Cookie"
+                class="bunny-cookie"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 16일 날짜박스 -->
+        <div class="day popup-box" data-day="16">
+          <span class="door-number">16</span>
+          <!-- 이미지들 -->
+          <img
+            src="Christmas Background.png"
+            alt="크리스마스 배경"
+            class="popup-image background-image"
+          />
+          <img
+            src="golden_glow.png"
+            alt="황금빛 광채"
+            class="popup-image golden-glow"
+          />
+          <img
+            src="golden_bubbles.png"
+            alt="황금빛 버블"
+            class="popup-image golden-bubbles"
+          />
+          <img
+            src="decorated_christmas_tree.png"
+            alt="장식된 크리스마스 트리"
+            class="popup-image christmas-tree"
+          />
+          <img
+            src="striped_gift_boxes.png"
+            alt="선물 상자"
+            class="popup-image gift-boxes"
+          />
+        </div>
+
+        <!-- 17일 날짜박스 -->
+        <div class="day door" data-day="17">
+          <span class="door-number">17</span>
+          <!-- 문 닫힌 화면에 보일 이미지들 -->
+          <img
+            src="festive_frame.png"
+            alt="Festive Frame"
+            class="festive-frame"
+          />
+          <img
+            src="gingerbread_couple.png"
+            alt="Gingerbread Couple"
+            class="gingerbread-couple"
+          />
+
+          <!-- 문 열린 후 이너박스 화면 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <img
+                src="Snowflake_Frame_Silver.png"
+                alt="Snowflake Frame"
+                class="snowflake-frame"
+              />
+              <img
+                src="Children in Winter Clothes.png"
+                alt="Children in Winter Clothes"
+                class="children-winter"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 18일 날짜박스 -->
+        <div class="day popup-box" data-day="18">
+          <span class="door-number">18</span>
+          <!-- 배경 이미지 -->
+          <img
+            src="Pastel_Background.png"
+            alt="파스텔 배경"
+            class="popup-image pastel-background"
+          />
+          <!-- 눈송이 패턴 이미지 -->
+          <img
+            src="Snowflake_Pattern.png"
+            alt="눈송이 패턴"
+            class="popup-image snowflake-pattern"
+          />
+          <!-- 빈티지 산타 이미지 -->
+          <img
+            src="Vintage_Santa.png"
+            alt="빈티지 산타"
+            class="popup-image vintage-santa"
+          />
+        </div>
+
+        <!-- 19일 날짜박스 -->
+        <div class="day door" data-day="19">
+          <span class="door-number">19</span>
+          <!-- 문 닫힌 상태 이미지 -->
+          <!-- 리본 프레임 -->
+          <img
+            src="Ribbon_Ribbon_frame.png"
+            alt="리본 프레임"
+            class="popup-image ribbon-frame"
+          />
+          <img
+            src="snowflakes_scattered.png"
+            alt="눈송이 패턴"
+            class="popup-image scattered-snowflakes-1"
+          />
+          <img
+            src="victorian_dolls.png"
+            alt="빅토리안 인형"
+            class="popup-image victorian-dolls"
+          />
+          <!-- 문 열린 상태 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <img
+                src="Golden_Bokeh_Lights.png"
+                alt="황금빛 보케 라이트"
+                class="content-image golden-bokeh"
+              />
+              <img
+                src="Stars_Border_Whimsical.png"
+                alt="별 테두리"
+                class="content-image stars-border"
+              />
+              <img
+                src="Child with Holiday Decoration.png"
+                alt="휴일 장식과 아이"
+                class="content-image child-decoration"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 20일 날짜박스 -->
+        <!-- 20일 날짜박스 -->
+        <div class="day popup-box" data-day="20">
+          <span class="door-number">20</span>
+          <!-- 배경 패턴 이미지 -->
+          <img
+            src="holiday_icons_pattern.png"
+            alt="홀리데이 아이콘 패턴"
+            class="popup-image holiday-pattern"
+          />
+          <!-- 리스와 새 이미지 -->
+          <img
+            src="wreath_with_bird.png"
+            alt="리스와 새"
+            class="popup-image wreath-bird"
+          />
+        </div>
+
+        <!-- 21일 날짜박스 -->
+        <div class="day door" data-day="21">
+          <span class="door-number">21</span>
+          <!-- 문 닫힌 상태 이미지 -->
+          <img
+            src="Gold_Holiday_Border_01.png"
+            alt="골드 홀리데이 보더 1"
+            class="gold-border-1"
+          />
+          <img
+            src="Gold_Holiday_Border_02.png"
+            alt="골드 홀리데이 보더 2"
+            class="gold-border-2"
+          />
+          <img
+            src="striped_ribbon_bow.png"
+            alt="리본 보우"
+            class="striped-ribbon"
+          />
+          <!-- 문 열린 상태 콘텐츠 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <img
+                src="Christmas_Icon_Pattern.png"
+                alt="크리스마스 아이콘 패턴"
+                class="icon-pattern"
+              />
+              <img
+                src="Santa with Gift Sack.png"
+                alt="산타와 선물 자루"
+                class="santa-sack"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 22일 날짜박스 -->
+        <div class="day popup-box" data-day="22">
+          <span class="door-number">22</span>
+          <!-- 이미지들 -->
+          <img
+            src="Candy_Stripe_Lights_Frame.png"
+            alt="캔디 라이트 프레임"
+            class="popup-image candy-stripe-frame"
+          />
+          <img
+            src="Gold_Snowflake_Spiral.png"
+            alt="황금 눈송이 나선"
+            class="popup-image gold-snowflake-spiral"
+          />
+          <img
+            src="Red_Green_Snowflake_Cluster.png"
+            alt="눈송이 클러스터 1"
+            class="popup-image snowflake-cluster-1"
+          />
+          <img
+            src="Red_Green_Snowflake_Cluster.png"
+            alt="눈송이 클러스터 2"
+            class="popup-image snowflake-cluster-2"
+          />
+          <img
+            src="Christmas Candle.png"
+            alt="크리스마스 양초"
+            class="popup-image christmas-candle"
+          />
+        </div>
+
+        <!-- 23일 날짜박스 -->
+        <div class="day door" data-day="23">
+          <span class="door-number">23</span>
+          <!-- 문 닫힌 화면 이미지들 -->
+          <img
+            src="Snowfall_Pattern_01.png"
+            alt="눈 내리는 패턴"
+            class="popup-image snowfall-pattern"
+          />
+          <img
+            src="Holly_Wreath_Bells.png"
+            alt="홀리 리스 종"
+            class="popup-image holly-wreath"
+          />
+          <img
+            src="ChristmasBell.png"
+            alt="크리스마스 종"
+            class="popup-image christmas-bell"
+          />
+          <!-- 문 열린 화면 -->
+          <div class="door-content">
+            <div class="inner-box">
+              <img
+                src="Christmas_Border_Frame.png"
+                alt="크리스마스 보더 프레임"
+                class="content-image christmas-border"
+              />
+              <img
+                src="Minimalist_Christmas_Tree_Pattern.png"
+                alt="미니멀 크리스마스 트리 패턴"
+                class="content-image minimalist-tree"
+              />
+              <img
+                src="Vintage_Ribbon.png"
+                alt="빈티지 리본"
+                class="content-image vintage-ribbon"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 24일 날짜박스 (팝업만 활성화) -->
+        <div class="day popup-box" data-day="24">
+          <span class="door-number">24</span>
+          <!-- 문 닫힌 상태에 표시될 이미지 -->
+          <img
+            src="Square_square_frame.png"
+            alt="테두리 프레임"
+            class="closed-image square-frame"
+          />
+          <img
+            src="Gold_Snowflake_patten_Background.png"
+            alt="눈송이 패턴"
+            class="closed-image snowflake-pattern"
+          />
+          <img src="Snowman.png" alt="눈사람" class="closed-image snowman" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 팝업 창 -->
+    <div class="popup hidden">
+      <div class="popup-content">
+        <p>
+          🕯️ 12. 크리스마스 양초의 빛 크리스마스 양초는 희망의 빛과 사랑을
+          의미합니다. 어둠 속에서 길을 비추듯, 양초의 불빛은 우리에게 따뜻한
+          위로와 소망을 전해줘요. "당신의 삶이 따뜻한 빛으로 가득하길
+          소망합니다."
+        </p>
+        <button class="close-btn">닫기</button>
+      </div>
+    </div>
+
+    <!-- 크리스마스 트리 1 (왼쪽) -->
+    <img
+      src="Christmas_Tree_With_Gifts.png"
+      alt="Left Christmas Tree"
+      class="tree-1"
+    />
+
+    <!-- 크리스마스 트리 2 (오른쪽) -->
+    <img
+      src="Christmas_Tree_With_Gifts.png"
+      alt="Right Christmas Tree"
+      class="tree-2"
+    />
+
+    <!-- 하단 금색 테두리 (4개로 나눔) -->
+    <img
+      src="Golden_Border_Horizontal.png"
+      alt="Bottom Border 1"
+      class="golden-border-bottom bottom-1"
+    />
+    <img
+      src="Golden_Border_Horizontal.png"
+      alt="Bottom Border 2"
+      class="golden-border-bottom bottom-2"
+    />
+    <img
+      src="Golden_Border_Horizontal.png"
+      alt="Bottom Border 3"
+      class="golden-border-bottom bottom-3"
+    />
+    <img
+      src="Golden_Border_Horizontal.png"
+      alt="Bottom Border 4"
+      class="golden-border-bottom bottom-4"
+    />
+
+    <!-- 왼쪽 금색 테두리 (3개로 나눔) -->
+    <img
+      src="Golden_Border_Vertical.png"
+      alt="Left Border 1"
+      class="golden-border-left left-1"
+    />
+    <img
+      src="Golden_Border_Vertical.png"
+      alt="Left Border 2"
+      class="golden-border-left left-2"
+    />
+    <img
+      src="Golden_Border_Vertical.png"
+      alt="Left Border 3"
+      class="golden-border-left left-3"
+    />
+
+    <!-- 오른쪽 금색 테두리 (3개로 나눔) -->
+    <img
+      src="Golden_Border_Vertical.png"
+      alt="Right Border 1"
+      class="golden-border-right right-1"
+    />
+    <img
+      src="Golden_Border_Vertical.png"
+      alt="Right Border 2"
+      class="golden-border-right right-2"
+    />
+    <img
+      src="Golden_Border_Vertical.png"
+      alt="Right Border 3"
+      class="golden-border-right right-3"
+    />
+
+    <div class="header-text">
+      <!-- Merry Christmas -->
+      <h2 id="merry-christmas" class="typing-text">Merry Christmas</h2>
+      <br /><br />
+      <!-- 서서히 등장하면서 타이핑되는 한글 문구 -->
+      <p id="christmas-message" class="fade-in-text">
+        12월 1일부터 24일까지, 매일 한 칸씩 열리는 어드벤트 캘린더로
+        크리스마스의 설렘과 마법을 만나보세요✨
+      </p>
+    </div>
+
+    <!-- 상단 이미지 꾸미기 -->
+    <!-- 상단 이미지 컨테이너 -->
+    <div class="header-images">
+      <!-- Golden Ornaments: 왼쪽, 가운데, 오른쪽 -->
+      <img
+        src="Golden Christmas Ornaments Left.png"
+        alt="Golden Ornaments Left"
+        class="golden-ornament ornament-left"
+      />
+      <img
+        src="Golden Christmas Ornaments Right.png"
+        alt="Golden Ornaments Right"
+        class="golden-ornament ornament-right"
+      />
+      <!-- 새 이미지 추가: Golden Christmas Ornaments -->
+      <img
+        src="Golden Christmas Ornaments.png"
+        alt="Golden Christmas Ornaments"
+        class="golden-ornament ornament-new"
+      />
+
+      <img
+        src="Golden Christmas Ornaments.png"
+        alt="Golden Christmas Ornaments"
+        class="golden-ornament ornament-new-2"
+      />
+
+      <!-- Golden Fairy Lights: 개별 조정 -->
+      <img
+        src="Golden_Fairy_Lights.png"
+        alt="Golden Fairy Lights 1"
+        class="fairy-lights fairy-light-1"
+      />
+      <img
+        src="Golden_Fairy_Lights.png"
+        alt="Golden Fairy Lights 2"
+        class="fairy-lights fairy-light-2"
+      />
+      <img
+        src="Golden_Fairy_Lights.png"
+        alt="Golden Fairy Lights 3"
+        class="fairy-lights fairy-light-3"
+      />
+
+      <!-- 맨 앞: 가운데 Bow Garland -->
+      <img
+        src="Christmas_Bow_Garland.png"
+        alt="Christmas Bow Garland"
+        class="bow-garland"
+      />
+    </div>
+  </body>
+</html>

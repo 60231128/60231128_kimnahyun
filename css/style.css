@@ -1,0 +1,2687 @@
+:root {
+  --new-color: #f3b9cb; /* 초기 배경색 */
+}
+
+/* 전체 페이지 스크롤 방지 */
+body,
+html {
+  margin: 0; /* 기본 여백 제거 */
+  padding: 0;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
+}
+
+/* 추가로, .header-text나 다른 요소에 불필요한 너비 초과 방지 */
+.header-text {
+  max-width: 100%; /* 화면 너비를 초과하지 않도록 제한 */
+  box-sizing: border-box; /* 패딩, 보더 포함한 너비 설정 */
+}
+
+/* 기본 스타일 */
+body {
+  background: linear-gradient(to bottom, #080a14, #101728, #192035);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  color: white;
+  overflow: hidden; /* 스크롤 방지 */
+  position: relative; /* 눈송이 위치 설정 */
+}
+
+/* 캘린더 그리드 */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
+  width: 90vw;
+  max-width: 800px;
+}
+
+@media (max-width: 600px) {
+  .calendar-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    grid-gap: 8px;
+  }
+}
+
+/* 문이 닫힌 상태 스타일 */
+.day {
+  position: relative;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 수정: 기본 배경 제거 대신 랜덤 클래스 적용 */
+  background-color: #f3b9cb; /* 기본 배경색 (초기화 시 랜덤 색 적용 예정) */
+}
+
+/* 랜덤 배경색 클래스 */
+.color-1 {
+  background-color: #f3b9cb !important;
+}
+.color-2 {
+  background-color: #cb2026 !important;
+}
+.color-3 {
+  background-color: #ede2c5 !important;
+}
+.color-4 {
+  background-color: #f4d093 !important;
+}
+.door {
+  position: relative;
+  overflow: hidden; /* 내부 콘텐츠가 넘치지 않도록 */
+}
+
+/* 부모 컨테이너 설정 */
+.day.door {
+  position: relative; /* 자식 요소의 absolute 배치 기준 */
+  width: 100%; /* 너비 채우기 */
+  height: 100%; /* 높이 100% 설정 */
+  overflow: hidden; /* 넘치는 부분 숨김 */
+}
+
+.door-number {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 50rem;
+  font-weight: bold;
+  color: white;
+  z-index: 10; /* 숫자가 항상 위에 보이도록 */
+  display: block; /* 항상 보이게 설정 */
+  pointer-events: none;
+}
+
+/* .door 가상 요소에서 배경 제거 */
+.door::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: inherit; /* 부모의 배경색을 상속받음 */
+  transition: transform 0.5s ease-in-out; /* 부드러운 전환 */
+  z-index: 2;
+}
+
+.door.open::after {
+  transform: translateY(-100%); /* 문이 위로 이동하며 열림 */
+}
+
+.door-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0; /* 문 뒤에 배치 */
+}
+
+/* 문이 열릴 때 테두리 스타일 */
+.door.open {
+  border: 4px solid #faf6e5; /* 기본값은 흰색 */
+  box-shadow: 0 0 5px #ffffff; /* 부드러운 그림자 */
+  border-radius: 10px; /* 둥근 테두리 */
+  transition: border 0.5s ease, box-shadow 0.5s ease; /* 부드러운 전환 효과 */
+}
+
+/* 테두리 효과 스타일 */
+.day.clicked {
+  border: 4px solid #faf6e5; /* 황금색 테두리 */
+  box-shadow: 0 0 5px #ffffff; /* 부드러운 그림자 */
+  border-radius: 10x; /* 모서리 둥글게 */
+  transition: border 0.3s ease, box-shadow 0.3s ease; /* 부드러운 효과 */
+}
+
+.inner-box {
+  width: 90%;
+  height: 90%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid #fff;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 캘린더 전체를 아래로 이동 */
+.advent-calendar {
+  position: relative; /* 기준점 설정 */
+  margin-top: 170px; /* 위쪽 여백 추가 */
+  z-index: 1; /* 눈송이 뒤에 위치하도록 설정 */
+}
+
+/* 팝업 스타일 */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%; /* 팝업 가로 크기 조정 (더 넓게) */
+  max-width: 1000px; /* 팝업 최대 너비 확대 */
+  height: 50%; /* 팝업 세로 크기 약간 확대 */
+  max-height: 500px; /* 팝업 최대 높이 */
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* 팝업 그림자 */
+}
+
+/* 팝업 콘텐츠 스타일 */
+.popup-content {
+  font-size: 1.2rem; /* 전체 글씨 크기 줄임 */
+  line-height: 1.6; /* 줄 간격 추가 */
+  text-align: center; /* 가운데 정렬 */
+}
+
+.popup-content h1 {
+  font-size: 1.5rem; /* 제목 글씨 크기 줄임 */
+  margin-bottom: 15px;
+}
+
+.popup-content strong {
+  font-size: 1.3rem; /* 운세 강조 부분 글씨 크기 */
+}
+
+.popup-content p {
+  font-size: 1.1rem; /* 일반 텍스트 글씨 크기 */
+}
+
+/* 숫자 고정 확인 */
+.door-number {
+  position: absolute;
+  top: 2px;
+  left: 11px;
+  font-size: 2rem !important;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  z-index: 2;
+  pointer-events: none; /* 숫자가 클릭 이벤트에 영향받지 않음 */
+  transform: none; /* 숫자가 문 열릴 때 회전하지 않음 */
+  backface-visibility: hidden; /* 숫자가 반전되지 않음 */
+  font-family: "tangier", sans-serif; /* 영어 폰트 적용 */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* 그림자 추가 */
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5rem; /* 더 큰 텍스트 */
+  color: #333; /* 글자 색상 */
+}
+
+.close-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #cb2026;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* 반짝임 효과 */
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); /* 금빛 효과 */
+  }
+}
+
+.popup-glow {
+  animation: glow 0.3s ease-in-out; /* 반짝임 효과를 0.3초로 단축 */
+}
+
+/* 1일차 날짜박스 꾸미기 */
+/* 공통 이미지 스타일 */
+.door img {
+  position: absolute;
+  height: auto;
+  object-fit: contain;
+  transition: opacity 0.8s ease; /* 부드러운 투명도 전환 */
+  z-index: 3; /* 문 위에 이미지 표시 */
+}
+
+/* 첫 번째 이미지 */
+.door img.door-image {
+  top: -1.5%; /* 위치 조정 */
+  left: 1%;
+  width: 100%;
+}
+
+/* 두 번째 이미지 */
+.door img.extra-image {
+  top: 4%;
+  left: 1%;
+  width: 100%;
+}
+
+/* 세 번째 이미지 */
+.door img.reindeer-image {
+  top: 12%;
+  left: 15%;
+  width: 80%;
+  animation: float 2s ease-in-out infinite; /* 둥둥 애니메이션 추가 */
+}
+
+/* 둥둥 애니메이션 정의 */
+@keyframes float {
+  0% {
+    transform: translateY(0); /* 원래 위치 */
+  }
+  50% {
+    transform: translateY(-7px); /* 위로 15px 떠오름 */
+  }
+  100% {
+    transform: translateY(0); /* 원래 위치로 돌아옴 */
+  }
+}
+
+/* 문이 열릴 때 모든 닫힌 이미지 숨김 */
+.door.open img {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 공통 문 열린 이미지 스타일 */
+.door-content img.content-image {
+  position: absolute;
+  width: 100%; /* 이미지 기본 크기 */
+  height: auto; /* 비율 유지 */
+  opacity: 0; /* 기본적으로 숨김 상태 */
+  transition: opacity 0.5s ease; /* 부드러운 투명도 전환 */
+  object-fit: contain; /* 비율 유지하며 맞춤 */
+}
+
+/* 문이 열릴 때 이미지 나타남 */
+.door.open .door-content img.content-image {
+  opacity: 1; /* 문이 열리면 나타남 */
+}
+
+/* 개별 이미지 위치 조정 */
+
+/* 첫 번째 이미지: Cookie */
+.door-content img.cookie-image {
+  top: 18%;
+  left: 18%;
+  width: 60%;
+  z-index: 4; /* 위에 보이도록 설정 */
+  /* 둥둥 떠다니는 애니메이션 추가 */
+  animation: floatCookie 3s ease-in-out infinite;
+}
+
+/* 둥둥 떠다니는 애니메이션 */
+@keyframes floatCookie {
+  0%,
+  100% {
+    transform: translateY(0); /* 원래 위치 */
+  }
+  50% {
+    transform: translateY(-6px); /* 위로 살짝 이동 */
+  }
+}
+
+/* 두 번째 이미지: Tinsel */
+.door-content img.tinsel-image {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2; /* 가장 아래 */
+}
+
+/* 세 번째 이미지: Cookie Wreath */
+.door-content img.wreath-image {
+  bottom: 3%;
+  right: 1%;
+  width: 100%;
+  z-index: 3; /* 중간 레이어 */
+}
+
+/* 네 번째 이미지: Candy Cane */
+.door-content img.candy-cane-image {
+  top: 32%;
+  right: 3%;
+  width: 30%;
+  z-index: 3; /* 가장 위에 표시 */
+}
+
+/* 문이 닫혀 있을 때 산타 이미지 숨김 */
+.door:not(.open) .door-content img.content-image {
+  opacity: 0; /* 숨김 */
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 2일차 날짜박스 꾸미기 */
+/* 공통 이미지 스타일 - 팝업 박스 */
+.popup-box img.popup-image {
+  position: absolute; /* 절대 위치로 배치 */
+  width: 100%; /* 전체 박스를 채우도록 설정 */
+  height: auto; /* 이미지 비율 유지 */
+  object-fit: contain; /* 비율 유지하며 박스 안에 맞춤 */
+  pointer-events: none; /* 이미지 클릭 이벤트 방지 */
+}
+
+/* 부모 컨테이너 설정: 넘치는 내용 숨김 */
+.popup-box {
+  position: relative; /* 이미지의 절대 위치 기준 설정 */
+  overflow: hidden; /* 넘치는 콘텐츠 숨김 */
+  border-radius: 10px; /* 모서리 둥글게 */
+}
+
+/* 첫 번째 이미지: 배경 이미지 */
+.popup-box img.background-image {
+  position: absolute;
+  top: 2; /* 상단 여백 없음 */
+  left: 0; /* 왼쪽 여백 없음 */
+  width: 100%; /* 부모 컨테이너의 너비에 맞춤 */
+  height: 100%; /* 부모 컨테이너의 높이에 맞춤 */
+  object-fit: cover; /* 비율 유지하면서 박스에 꽉 맞춤 */
+  z-index: 1; /* 가장 아래에 표시 */
+  opacity: 1; /* 항상 보이도록 설정 */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+}
+
+/* 두 번째 이미지: 선물 상자 */
+.popup-box img.gift-box-image {
+  position: absolute;
+  top: 12%; /* 상단 위치 조정 */
+  left: -1%; /* 왼쪽 위치 조정 */
+  width: 100%; /* 이미지 크기 조정 */
+  z-index: 2; /* 배경 이미지 위에 표시 */
+  transition: transform 0.5s ease; /* 부드러운 애니메이션 추가 */
+  /* 둥둥 떠다니는 애니메이션 적용 */
+  animation: floatGiftBox 3s ease-in-out infinite;
+}
+
+/* 둥둥 떠다니는 애니메이션 */
+@keyframes floatGiftBox {
+  0%,
+  100% {
+    transform: translateY(0); /* 원래 위치 */
+  }
+  50% {
+    transform: translateY(-4px); /* 위로 살짝 이동 */
+  }
+}
+
+/* 3일차 날짜박스 꾸미기 */
+/* 배경 프레임 - 맨 앞에 위치 */
+.background-frame {
+  position: absolute; /* 부모 .day를 기준으로 배치 */
+  top: 0;
+  left: 0;
+  width: 100%; /* 부모 컨테이너를 꽉 채움 */
+  height: 100%;
+  object-fit: cover; /* 비율 유지하며 프레임 꽉 채우기 */
+  z-index: 10 !important; /* 가장 앞에 표시 */
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 첫 번째 이미지 - classic_christmas_tree */
+.door img.tree-image-1 {
+  position: absolute;
+  top: 5%; /* 위쪽 여백 */
+  left: 5%; /* 왼쪽 여백 */
+  width: 90%; /* 이미지 너비 */
+  height: auto;
+  z-index: 2; /* 프레임 아래에 표시 */
+}
+
+/* 두 번째 이미지 - decorated_christmas_tree */
+.door img.tree-image-2 {
+  position: absolute;
+  top: -5%; /* 약간 아래쪽으로 배치 */
+  left: -8%; /* 왼쪽 여백 */
+  width: 110%; /* 이미지 크기 */
+  height: auto;
+  z-index: 3; /* 첫 번째 이미지 위에 표시 */
+}
+
+/* 문이 열릴 때 모든 이미지 숨김 */
+.door.open img.tree-image-1,
+.door.open img.tree-image-2 {
+  opacity: 0; /* 이미지 숨김 */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+}
+
+/* 공통 이미지 스타일 */
+.door-content img {
+  position: absolute;
+  width: 100%; /* 기본 너비 */
+  height: auto; /* 비율 유지 */
+  object-fit: contain; /* 비율 유지하며 맞춤 */
+  z-index: 1; /* 이미지의 기본 레이어 순서 */
+}
+
+/* 1. 크리스마스 갈란드 보더 */
+.door-content img.garland-border {
+  top: 0; /* 화면 위쪽에 정렬 */
+  left: 0; /* 왼쪽 정렬 */
+  width: 120%; /* 전체 너비 */
+  z-index: 2; /* 다른 이미지보다 위에 표시 */
+  opacity: 1; /* 항상 보이게 설정 */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+}
+
+/* 문 열린 상태에 다른 이미지 스타일 (예: 눈송이 배경) */
+.door-content img.snowflake-bg {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1; /* 항상 보이도록 */
+  z-index: 2; /* 다른 이미지 뒤에 배치 */
+}
+
+/* 벽난로 이미지 */
+.door-content img.fireplace-image {
+  bottom: 3%; /* 아래쪽 여백 */
+  left: 17%; /* 왼쪽 정렬 */
+  width: 70%; /* 크기 조정 */
+  z-index: 2; /* 가장 위에 표시 */
+  /* 불길 효과를 위한 애니메이션 추가 */
+  animation: flickerFireplace 2s ease-in-out infinite;
+}
+
+/* 불길이 살아있는 듯한 애니메이션 */
+@keyframes flickerFireplace {
+  0% {
+    transform: scale(1); /* 기본 크기 */
+    filter: brightness(80%); /* 기본 밝기 */
+  }
+  50% {
+    transform: scale(1.02); /* 살짝 확대 */
+    filter: brightness(120%); /* 더 밝아짐 */
+  }
+  100% {
+    transform: scale(1); /* 원래 크기로 돌아옴 */
+    filter: brightness(80%); /* 기본 밝기로 돌아옴 */
+  }
+}
+
+/*4일차 이미지 꾸미기*/
+/* 공통 이미지 스타일 */
+.popup-box img.popup-image {
+  position: absolute; /* 이미지 위치 조정 */
+  height: auto; /* 비율 유지 */
+  object-fit: contain; /* 이미지 비율 맞춤 */
+  z-index: 2; /* 기본 레이어 순서 */
+  transition: opacity 0.5s ease; /* 부드러운 투명도 전환 */
+}
+
+/* 배경 이미지: Tree Background */
+.popup-box img.tree-background {
+  position: absolute; /* 부모 요소를 기준으로 위치 조정 */
+  top: 0; /* 상단 여백 없음 */
+  left: 0; /* 왼쪽 여백 없음 */
+  width: 100%; /* 부모 요소의 전체 너비 */
+  height: 100%; /* 부모 요소의 전체 높이 */
+  object-fit: cover; /* 비율을 유지하며 요소를 채움 */
+  z-index: 1; /* 가장 아래에 배치 */
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 첫 번째 이미지: 크리스마스 오너먼트 */
+.popup-box img.ornament-image {
+  top: 3%; /* 위쪽 여백 */
+  left: 5%; /* 왼쪽 여백 */
+  width: 90%; /* 이미지 너비 */
+  z-index: 3; /* 다른 이미지보다 위에 표시 */
+  /* 좌우로 살짝 기울어지는 애니메이션 추가 */
+  animation: swayOrnament 4s ease-in-out infinite;
+}
+
+/* 좌우로 기울어지는 애니메이션 */
+@keyframes swayOrnament {
+  0%,
+  100% {
+    transform: rotate(0deg); /* 원래 위치 */
+  }
+  50% {
+    transform: rotate(5deg); /* 오른쪽으로 살짝 기울임 */
+  }
+  75% {
+    transform: rotate(-5deg); /* 왼쪽으로 살짝 기울임 */
+  }
+}
+
+/* 두 번째 이미지: 금색 눈송이 */
+.popup-box img.gold-snowflakes {
+  top: -2%; /* 위쪽 여백 */
+  right: -2%; /* 왼쪽 여백 */
+  width: 60%; /* 이미지 너비 */
+  transform: rotate(-25deg); /* 이미지를 오른쪽으로 10도 회전 */
+  z-index: 1; /* 가장 아래 레이어 */
+  animation: rotateSnowflakes 12s linear infinite; /* 회전 애니메이션 적용 */
+}
+
+/* 세 번째 이미지: 금색 눈송이 패턴 2 */
+.popup-box img.golden-snowflakes-2 {
+  bottom: -5%; /* 아래쪽 여백 */
+  left: -8%; /* 오른쪽 여백 */
+  width: 60%; /* 이미지 너비 */
+  transform: rotate(140deg); /* 이미지를 오른쪽으로 10도 회전 */
+  z-index: 1; /* 중간 레이어 */
+  animation: rotateSnowflakesReverse 15s linear infinite; /* 반대 방향 회전 */
+}
+
+/* 회전 애니메이션: 시계 방향 */
+@keyframes rotateSnowflakes {
+  from {
+    transform: rotate(0deg); /* 시작 각도 */
+  }
+  to {
+    transform: rotate(360deg); /* 끝 각도 */
+  }
+}
+
+/* 회전 애니메이션: 반시계 방향 */
+@keyframes rotateSnowflakesReverse {
+  from {
+    transform: rotate(0deg); /* 시작 각도 */
+  }
+  to {
+    transform: rotate(-360deg); /* 끝 각도 */
+  }
+}
+
+/*5일차 이미지 꾸미기*/
+/* 공통 이미지 스타일 */
+.door img {
+  position: absolute;
+  height: auto;
+  object-fit: contain; /* 비율 유지하며 맞춤 */
+  transition: opacity 0.5s ease; /* 부드러운 투명도 전환 */
+  z-index: 3; /* 문 위에 이미지 표시 */
+  opacity: 1; /* 기본적으로 보이게 설정 */
+}
+
+/* 첫 번째 이미지: 눈사람 */
+.door img.snowman-image {
+  top: 15%; /* 상단 여백 */
+  left: 8%; /* 왼쪽 여백 */
+  width: 80%; /* 눈사람 크기 조정 */
+  z-index: 4; /* 항상 문 위에 표시 */
+  /* 둥둥 떠다니는 애니메이션 적용 */
+  animation: floatSnowman 3s ease-in-out infinite;
+}
+
+/* 둥둥 떠다니는 애니메이션 */
+@keyframes floatSnowman {
+  0%,
+  100% {
+    transform: translateY(0); /* 원래 위치 */
+  }
+  50% {
+    transform: translateY(-6px); /* 위로 10px 이동 */
+  }
+}
+
+/* 왼쪽 겨우살이 이미지 */
+.door img.mistletoe-left-image {
+  position: absolute;
+  top: 2%; /* 상단 여백 */
+  left: 2%; /* 왼쪽 여백 */
+  width: 40%; /* 크기 조정 */
+  z-index: 3;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+/* 오른쪽 겨우살이 이미지 */
+.door img.mistletoe-right-image {
+  position: absolute;
+  top: 59%; /* 상단 여백 */
+  left: 58%; /* 왼쪽 여백 */
+  width: 40%; /* 크기 조정 */
+  z-index: 3;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+/* 문이 열릴 때 숨길 이미지: 눈사람과 겨우살이 모두 */
+.door.open img {
+  opacity: 0; /* 이미지 숨김 */
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 문이 열릴 때 이미지 표시 */
+.door.open .door-content img.content-image {
+  opacity: 1; /* 문이 열리면 보이도록 설정 */
+}
+
+/* 첫 번째 이미지: Christmas_Light_Pattern */
+.door-content img.light-pattern {
+  top: 0; /* 상단에 배치 */
+  left: 0;
+  width: 100%;
+  z-index: 2; /* 가장 아래에 표시 */
+}
+
+/* 두 번째 이미지: Retro_Star_Border_1 */
+.door-content img.star-border-1 {
+  top: 5%; /* 위쪽 여백 */
+  left: 5%; /* 왼쪽 여백 */
+  width: 30%;
+  transform: rotate(10deg);
+  z-index: 2;
+}
+
+/* 세 번째 이미지: Retro_Star_Border_2 */
+.door-content img.star-border-2 {
+  bottom: 7%; /* 아래쪽 여백 */
+  right: 2%; /* 오른쪽 여백 */
+  width: 30%;
+  transform: rotate(-10deg);
+  z-index: 2;
+}
+
+/* 네 번째 이미지: Candy_Cane_Border */
+.door-content img.candy-border {
+  top: 1%;
+  left: 1%;
+  width: 98%;
+  z-index: 2;
+}
+
+/* 다섯 번째 이미지: Elf */
+.door-content img.elf-image {
+  bottom: 15%; /* 아래쪽 여백 */
+  left: 50%; /* 가운데 정렬 */
+  width: 60%;
+  transform: translateX(-50%) translateY(10px); /* 가운데 위치 및 약간 위로 띄우기 */
+  z-index: 4; /* 가장 위에 표시 */
+  animation: floatElf 2s infinite ease-in-out; /* 둥둥 떠다니는 애니메이션 */
+}
+
+/* 요정 이미지 둥둥 떠다니는 애니메이션 */
+@keyframes floatElf {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(5px);
+  }
+  50% {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/*6일차 이미지 꾸미기*/
+
+/* 첫 번째 이미지: Candy Cane */
+.popup-box img.candy-cane {
+  position: absolute; /* 부모 요소를 기준으로 위치 */
+  top: 20%; /* 위쪽 여백 */
+  left: 50%; /* 왼쪽에서 50% 위치 */
+  width: 70%; /* 이미지 크기 */
+  transform: translateX(-50%) rotate(-10deg); /* 중앙 정렬 및 회전 */
+  z-index: 3; /* 가장 위에 표시 */
+  /* 좌우로 살짝 기울어지는 애니메이션 추가 */
+  animation: swayCandyCane 3s ease-in-out infinite;
+}
+
+/* 좌우로 기울어지는 애니메이션 */
+@keyframes swayCandyCane {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-10deg); /* 초기 기울기 */
+  }
+  50% {
+    transform: translateX(-50%) rotate(10deg); /* 반대 방향으로 기울기 */
+  }
+}
+
+/* 두 번째 이미지: Snowflake Background */
+.popup-box img.snowflake-bg {
+  position: absolute;
+  top: -3; /* 상단에 고정 */
+  left: -3; /* 왼쪽에 고정 */
+  width: 50%; /* 박스 전체를 채움 */
+  height: auto;
+  z-index: 1; /* 가장 아래에 표시 */
+  opacity: 0.8; /* 약간 투명하게 */
+  transform: rotate(-150deg); /* 회전 */
+  /* 회전 애니메이션 적용 */
+  animation: rotateClockwise 11s linear infinite;
+}
+
+/* 세 번째 이미지: Snowflake Background 2 */
+.popup-box img.snowflake-bg-2 {
+  position: absolute;
+  bottom: 1%; /* 하단 여백 */
+  right: -3%; /* 오른쪽 여백 */
+  width: 50%; /* 크기 조정 */
+  transform: rotate(15deg); /* 회전 */
+  z-index: 2; /* 중간 레이어 */
+  /* 반시계 방향 회전 애니메이션 적용 */
+  animation: rotateCounterClockwise 16s linear infinite;
+}
+
+/* 시계 방향 회전 애니메이션 */
+@keyframes rotateClockwise {
+  from {
+    transform: rotate(0deg); /* 시작 각도 */
+  }
+  to {
+    transform: rotate(360deg); /* 끝 각도 */
+  }
+}
+
+/* 반시계 방향 회전 애니메이션 */
+@keyframes rotateCounterClockwise {
+  from {
+    transform: rotate(0deg); /* 시작 각도 */
+  }
+  to {
+    transform: rotate(-360deg); /* 끝 각도 */
+  }
+}
+
+/* 네 번째 이미지: V Pattern */
+.popup-box img.v-pattern {
+  position: absolute;
+  bottom: 0; /* 하단에 붙임 */
+  left: 0; /* 왼쪽에 붙임 */
+  width: 100%; /* 전체 너비 */
+  height: auto; /* 비율 유지 */
+  z-index: 2; /* 중간 레이어 */
+  opacity: 0.9; /* 약간 투명하게 */
+}
+
+/*7일차 이미지 꾸미기*/
+/* 문이 열릴 때 모든 자식 이미지 숨김 */
+.day[data-day="7"].open img {
+  opacity: 0; /* 이미지 투명하게 설정 (사라짐) */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+  transition: opacity 0.5s ease; /* 부드럽게 사라지도록 애니메이션 */
+}
+
+/* 리본 프레임 이미지 */
+.day[data-day="7"] .ribbon-frame {
+  position: absolute; /* 부모 요소 기준 */
+  top: 0; /* 상단 여백 없음 */
+  left: 0; /* 왼쪽 여백 없음 */
+  width: 100%; /* 박스 전체를 채우도록 설정 */
+  height: auto; /* 비율 유지 */
+  object-fit: cover; /* 비율 유지하며 박스를 채움 */
+  z-index: 3; /* 가장 아래에 배치 */
+}
+
+/* 눈송이 이미지 */
+.day[data-day="7"] .snowflakes-bg {
+  position: absolute; /* 부모 요소 기준 */
+  top: 44%; /* 위쪽 여백 */
+  left: 17%; /* 왼쪽 여백 */
+  width: 80%; /* 박스 크기의 80% */
+  height: auto; /* 비율 유지 */
+  object-fit: contain;
+  z-index: 3; /* 중간 레이어 */
+  opacity: 0.7; /* 약간 투명하게 */
+}
+
+/* 트럭 이미지 */
+.day[data-day="7"] .truck-image {
+  position: absolute; /* 부모 요소 기준 */
+  bottom: 15%; /* 하단 여백 */
+  left: 50%; /* 가운데 정렬 */
+  width: 73%; /* 크기 조정 */
+  transform: translateX(-50%); /* 가로 중앙 정렬 */
+  z-index: 3; /* 가장 위에 배치 */
+
+  /* 좌우로 움직이는 애니메이션 */
+  animation: moveTruck 2s ease-in-out infinite;
+}
+
+/* 좌우로 움직이는 애니메이션 */
+@keyframes moveTruck {
+  0%,
+  100% {
+    transform: translateX(-50%); /* 원래 위치 */
+  }
+  50% {
+    transform: translateX(-45%); /* 오른쪽으로 약간 이동 */
+  }
+}
+
+/* 문 열림 후 보여질 콘텐츠 부모 컨테이너 */
+/* 부모 컨테이너 스타일 */
+.door-content {
+  position: relative;
+  z-index: 1; /* 부모 z-index 초기화 */
+  overflow: visible; /* 숨겨진 부분을 보이게 설정 */
+}
+
+/* Rocking Horse 이미지 */
+.rocking-horse {
+  position: absolute;
+  bottom: 8%;
+  left: 12%;
+  width: 90px !important;
+  height: auto !important;
+  z-index: 3 !important; /* 최상위 레이어로 설정 */
+  opacity: 1 !important;
+  display: block !important;
+
+  /* 좌우로 흔들리는 애니메이션 적용 */
+  animation: swayHorse 3s ease-in-out infinite;
+}
+
+/* 좌우로 천천히 흔들리는 애니메이션 */
+@keyframes swayHorse {
+  0%,
+  100% {
+    transform: rotate(0deg); /* 원래 위치 */
+  }
+  50% {
+    transform: rotate(-4deg); /* 왼쪽으로 살짝 기울임 */
+  }
+  75% {
+    transform: rotate(4deg); /* 오른쪽으로 살짝 기울임 */
+  }
+}
+
+/* Ballerina Frame 이미지 */
+.ballerina-frame {
+  position: absolute;
+  top: 8%;
+  left: 9%;
+  width: 100px !important;
+  height: auto !important;
+  z-index: 2 !important; /* Rocking Horse 뒤에 배치 */
+  opacity: 0.9 !important;
+  display: block !important;
+}
+
+/*8일차 이미지 꾸미기*/
+/* 부모 요소 설정 */
+.popup-box {
+  position: relative; /* 자식 요소 위치 기준 */
+  overflow: hidden; /* 넘치는 부분 숨김 */
+}
+
+/* 배경 이미지: Christmas Wreath Frame */
+.wreath-frame {
+  position: absolute;
+  top: 0; /* 상단 여백 없음 */
+  left: 0; /* 왼쪽 여백 없음 */
+  width: 100%; /* 부모 요소의 전체 너비 */
+  height: 100%; /* 부모 요소의 전체 높이 */
+  object-fit: cover; /* 비율 유지하며 요소를 채움 */
+  z-index: 1; /* 가장 아래 레이어 */
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 첫 번째 이미지: Snowflake with Holly */
+.snowflake-holly {
+  position: absolute;
+  top: -2% !important; /* 위에서 10% */
+  left: 1% !important; /* 왼쪽에서 10% */
+  width: 105% !important; /* 너비를 강제 조정 */
+  height: auto !important; /* 비율 유지 */
+  z-index: 2 !important; /* 중간 레이어 */
+  /* 회전 애니메이션 적용 */
+  animation: rotateHolly 15s linear infinite;
+}
+
+/* 두 번째 이미지: Holly Leaves and Berries */
+.holly-berries {
+  position: absolute;
+  bottom: 23% !important; /* 아래에서 15% */
+  right: 28% !important; /* 오른쪽에서 15% */
+  width: 45% !important; /* 너비 강제 조정 */
+  height: auto !important; /* 비율 유지 */
+  z-index: 3 !important; /* 가장 위에 배치 */
+  opacity: 1 !important; /* 완전히 보이게 */
+}
+
+/* 회전 애니메이션 */
+@keyframes rotateHolly {
+  from {
+    transform: rotate(0deg); /* 초기 각도 */
+  }
+  to {
+    transform: rotate(360deg); /* 한 바퀴 회전 */
+  }
+}
+
+/*9일차 이미지 꾸미기*/
+/* 9일 날짜 박스 스타일 */
+.day[data-day="9"] {
+  position: relative; /* 자식 이미지의 위치 기준 */
+  overflow: hidden; /* 넘치는 이미지 숨김 */
+}
+
+/* Scattered Twinkling Stars (가장 아래 배경 이미지) */
+.twinkling-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 비율 유지하며 꽉 채움 */
+  z-index: 1; /* 가장 아래 레이어 */
+  opacity: 0.6; /* 살짝 투명하게 */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+}
+
+/* Happy Cookie Frame (중간 레이어 이미지) */
+.cookie-frame {
+  position: absolute;
+  bottom: 0; /* 하단 정렬 */
+  left: 0; /* 왼쪽 정렬 */
+  width: 100%;
+  height: auto;
+  z-index: 2; /* 중간 레이어 */
+  opacity: 1; /* 완전히 보이게 */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+}
+
+/* Festive Ribbon Bow (가장 위에 표시될 이미지) */
+.ribbon-bow {
+  position: absolute;
+  top: 2%; /* 상단 여백 */
+  left: 51%; /* 중앙 정렬 */
+  width: 100%; /* 크기 설정 */
+  height: auto;
+  z-index: 3; /* 가장 위 레이어 */
+  opacity: 1; /* 완전히 보이게 설정 */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+  animation: swingRibbon 2s ease-in-out infinite; /* 부드럽게 흔들리는 애니메이션 추가 */
+}
+
+/* 리본 흔들림 애니메이션 */
+@keyframes swingRibbon {
+  0%,
+  100% {
+    transform: rotate(-5deg); /* 왼쪽으로 살짝 기울기 */
+  }
+  50% {
+    transform: rotate(5deg); /* 오른쪽으로 살짝 기울기 */
+  }
+}
+
+/* 문 열렸을때 이미지 */
+/* 첫 번째 이미지: Candy Cane Pattern (배경 이미지) */
+.candy-cane-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1; /* 가장 아래에 표시 */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+}
+
+/* 두 번째 이미지: Vintage Girl Christmas */
+.vintage-girl {
+  position: absolute;
+  bottom: 5%; /* 아래쪽 여백 */
+  right: 7%; /* 오른쪽 여백 */
+  width: 88% !important; /* 이미지 너비를 40%로 강제 설정 */
+  height: auto !important; /* 비율 유지 */
+  z-index: 2; /* 배경 이미지 위에 표시 */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+  animation: floatRotate 3s infinite ease-in-out; /* 새로운 애니메이션 적용 */
+}
+
+/* 문이 닫힌 상태: 이미지 숨김 */
+.door:not(.open) .door-content img {
+  opacity: 0; /* 문이 닫혔을 때 이미지 숨김 */
+  transition: opacity 0.5s ease; /* 부드러운 전환 */
+}
+
+/* 문이 열린 상태: 이미지 보이게 */
+.door.open .door-content img {
+  opacity: 1; /* 문이 열렸을 때 이미지 보이게 */
+  transition: opacity 0.5s ease; /* 부드러운 전환 */
+}
+
+/* 새로운 애니메이션: 흔들리며 떠다니기 */
+@keyframes floatRotate {
+  0%,
+  100% {
+    transform: translateY(5px) rotate(0deg); /* 원래 위치와 각도 */
+  }
+  50% {
+    transform: translateY(-3px) rotate(3deg); /* 위로 이동하면서 약간 회전 */
+  }
+}
+
+/* 10일 날짜박스 스타일 */
+.day[data-day="10"] {
+  position: relative;
+  overflow: hidden; /* 넘치는 부분 숨김 */
+}
+
+/* Red Stripe Frame (프레임 이미지) */
+.red-stripe-frame {
+  position: absolute;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important; /* 너비 강제 적용 */
+  height: 100% !important; /* 높이 강제 적용 */
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Santa Sack with Gifts (중앙 이미지) */
+.santa-sack {
+  position: absolute;
+  bottom: 7% !important; /* 아래쪽 여백 */
+  left: 19% !important; /* 중앙 정렬 */
+  width: 80% !important; /* 너비 강제 설정 */
+  height: auto !important; /* 비율 유지 */
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* White Snowflake 1 */
+.snowflake-1 {
+  position: absolute;
+  top: 65% !important;
+  left: 5% !important;
+  width: 30px !important; /* 고정된 크기 */
+  height: auto !important; /* 정사각형 */
+  z-index: 3;
+  pointer-events: none;
+  animation: spinSnowflake 5s linear infinite;
+}
+
+/* White Snowflake 2 */
+.snowflake-2 {
+  position: absolute;
+  top: 5% !important;
+  right: 7% !important;
+  width: 30px !important; /* 고정된 크기 */
+  height: auto !important; /* 정사각형 */
+  z-index: 3;
+  pointer-events: none;
+  animation: spinSnowflake 5s linear infinite reverse;
+}
+
+/* 눈송이 회전 애니메이션 */
+@keyframes spinSnowflake {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 11번 날짜박스 기본 스타일 */
+.day[data-day="11"] {
+  position: relative; /* 부모 요소 위치 기준 */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 문 닫기 전: Blue Snowflakes */
+.blue-snowflakes {
+  position: absolute !important;
+  top: -20% !important;
+  left: 1% !important;
+  width: 100% !important; /* 부모 크기 채우기 */
+  height: auto !important;
+  object-fit: cover !important; /* 비율 유지하며 꽉 채우기 */
+  z-index: 3 !important; /* 가장 아래 레이어 */
+  pointer-events: none;
+}
+
+/* 문 닫기 전: White Stars Pattern */
+.white-stars {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  z-index: 3 !important; /* 중간 레이어 */
+  pointer-events: none;
+}
+
+/* 문 닫기 전: Snow Globe Scene */
+.snow-globe {
+  position: absolute !important;
+  top: 23% !important;
+  left: 14% !important; /* 중앙 정렬 */
+  width: 70% !important; /* 크기 강제 */
+  height: auto !important;
+  z-index: 3 !important; /* 가장 위 레이어 */
+  pointer-events: none;
+}
+
+/* 문 열린 후: Christmas Pattern */
+.christmas-pattern {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  z-index: 1 !important; /* 가장 아래 레이어 */
+  pointer-events: none;
+}
+
+/* 문 열린 후: Nutcracker Doll */
+.nutcracker-doll {
+  position: absolute !important;
+  top: 8% !important;
+  left: 50% !important; /* 중앙 정렬 */
+  width: 40% !important;
+  height: auto !important;
+  z-index: 2 !important; /* 중간 레이어 */
+  pointer-events: none;
+  animation: floatNutcracker 3s infinite ease-in-out;
+}
+
+/* 둥둥 떠다니는 애니메이션 */
+@keyframes floatNutcracker {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(1px);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-3px);
+  }
+}
+
+/* 12일 날짜 박스 스타일 */
+.day[data-day="12"] {
+  position: relative; /* 자식 요소 배치 기준 */
+  overflow: hidden; /* 넘치는 부분 숨김 */
+}
+
+/* Green Stripe Frame (프레임) */
+.green-stripe-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important; /* 부모 요소를 꽉 채우기 */
+  height: auto !important;
+  object-fit: cover; /* 비율 유지하며 꽉 채우기 */
+  z-index: 3; /* 가장 아래 레이어 */
+  pointer-events: none;
+}
+
+/* Ceiling Twinkle Stars (반짝이는 별) */
+.ceiling-twinkle-stars {
+  position: absolute;
+  top: -5%; /* 상단에 배치 */
+  left: 2%;
+  width: 100% !important; /* 전체 너비 */
+  height: auto !important; /* 비율 유지 */
+  object-fit: contain; /* 비율 유지하면서 맞춤 */
+  z-index: 3; /* 중간 레이어 */
+  pointer-events: none;
+  opacity: 0.9; /* 약간 투명하게 */
+}
+
+/* Vintage Wreath (중앙 리스 이미지) */
+.vintage-wreath {
+  position: absolute;
+  top: 15% !important;
+  left: 50% !important; /* 가로 중앙 정렬 */
+  width: 75% !important; /* 이미지 크기 조정 */
+  height: auto !important; /* 비율 유지 */
+  z-index: 3; /* 가장 위 레이어 */
+  pointer-events: none;
+  /* 회전 애니메이션 적용 */
+  animation: spinWreath 30s linear infinite; /* 30초 동안 회전 */
+}
+
+/* 회전 애니메이션 */
+@keyframes spinWreath {
+  from {
+    transform: translateX(-50%) rotate(0deg); /* 시작 각도 */
+  }
+  to {
+    transform: translateX(-50%) rotate(360deg); /* 끝 각도 (360도 회전) */
+  }
+}
+
+/* 13일 날짜박스 스타일 */
+.day[data-day="13"] {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 문 닫기 전 화면 */
+/* 배경 패턴 */
+.snowflake-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* 회전하는 눈송이 (4개) */
+.detailed-snowflake {
+  position: absolute;
+  width: 12%; /* 눈송이 크기 */
+  height: auto;
+  animation: rotateSnowflake 5s linear infinite;
+  z-index: 3;
+}
+
+.snowflake-1 {
+  top: 7%;
+  left: 5%;
+}
+
+.snowflake-2 {
+  top: 20%;
+  right: 8%;
+}
+
+.snowflake-3 {
+  top: 5%;
+  left: 10%;
+}
+
+.snowflake-4 {
+  bottom: 10%;
+  right: 10%;
+}
+
+/* 좌우로 기울어지는 Holly Message */
+.holly-message {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  width: 70%; /* 이미지 크기 조정 */
+  transform: translateX(-50%) rotate(0deg);
+  animation: swayHolly 3s ease-in-out infinite;
+  z-index: 3;
+}
+
+/* 문 열린 후 화면 */
+/* 13번 박스의 이너박스 스타일 */
+.day[data-day="13"] .inner-box {
+  width: 90%;
+  height: 90%;
+  background-color: rgb(36, 15, 59); /* 아주 살짝 어두운 배경 */
+  border: 2px solid #fff; /* 기존 테두리 유지 */
+  border-radius: 5px; /* 기존 모서리 둥글게 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 기존 그림자 유지 */
+}
+
+/* 배경 Falling Blue Snowflakes */
+.falling-snowflakes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+}
+
+/* Snowy Village Scene: 밝아졌다가 돌아오는 애니메이션 */
+.snowy-village {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 80%;
+  transform: translateX(-50%);
+  animation: glowVillage 2.5s ease-in-out infinite;
+  z-index: 3;
+}
+
+/* 회전 애니메이션 */
+@keyframes rotateSnowflake {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 좌우로 기울어지는 애니메이션 */
+@keyframes swayHolly {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-5deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(5deg);
+  }
+}
+
+/* 밝아졌다가 돌아오는 애니메이션 */
+@keyframes glowVillage {
+  0%,
+  100% {
+    filter: brightness(85%);
+  }
+  50% {
+    filter: brightness(105%);
+  }
+}
+
+/* 14번 날짜박스 스타일 */
+.day[data-day="14"] {
+  position: relative; /* 자식 이미지들의 위치 기준 */
+  overflow: hidden; /* 넘치는 이미지 숨김 */
+}
+
+/* 눈 배경 이미지 스타일 */
+.falling-snow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* 부모 요소의 전체 너비 채움 */
+  height: 100%;
+  object-fit: cover; /* 이미지 비율 유지하며 채우기 */
+  z-index: 3; /* 가장 아래에 배치 */
+  pointer-events: none; /* 클릭 이벤트 방지 */
+}
+
+/* 크리스마스 양말 이미지 스타일 */
+.christmas-stocking {
+  position: absolute;
+  top: 14%; /* 위에서 25% 여백 */
+  left: 54%; /* 왼쪽에서 50% */
+  width: 77%; /* 양말 이미지 크기 조정 */
+  height: auto; /* 비율 유지 */
+  z-index: 3; /* 눈 배경 위에 표시 */
+  animation: swayStocking 3s ease-in-out infinite; /* 좌우로 흔들리는 애니메이션 */
+}
+
+/* 좌우로 살짝 기울어지는 애니메이션 */
+@keyframes swayStocking {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-5deg); /* 왼쪽으로 기울기 */
+  }
+  50% {
+    transform: translateX(-50%) rotate(5deg); /* 오른쪽으로 기울기 */
+  }
+}
+
+/* 15번 날짜박스 스타일 */
+.day[data-day="15"] {
+  position: relative; /* 부모 요소 기준 */
+  overflow: hidden; /* 자식 요소 넘치는 부분 숨김 */
+  height: 100%; /* 부모 높이 유지 */
+  transform: none !important; /* 스태킹 컨텍스트 방지 */
+}
+
+/* 캔디 케인 프레임 */
+.candy-cane-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1; /* 가장 아래에 표시 */
+}
+
+/* 화이트 스타 패턴 */
+.white-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6; /* 투명도 설정 */
+  z-index: 2; /* 중간 레이어 */
+}
+
+/* 종 이미지 - z-index 충돌 방지 */
+.golden-bells {
+  position: absolute;
+  top: 20%; /* 위쪽 여백 */
+  left: 55%; /* 중앙 정렬 */
+  transform: translateX(-50%) rotate(0deg); /* 흔들리는 효과 초기화 */
+  width: 68%; /* 종의 크기 */
+  z-index: 5 !important; /* 가장 위에 강제 배치 */
+  animation: swingBells 2.5s ease-in-out infinite;
+}
+
+/* 흔들리는 애니메이션 */
+@keyframes swingBells {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-10deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(10deg);
+  }
+}
+/* 문 열린 후 화면 스타일 */
+
+/* 골드 스노우플레이크 패턴 */
+.gold-snowflake-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1; /* 가장 아래 레이어 */
+  pointer-events: none;
+}
+
+/* 토끼 쿠키 - 살짝 점프 애니메이션 */
+.bunny-cookie {
+  position: absolute;
+  top: 15%;
+  left: 53.5%;
+  transform: translateX(-50%);
+  width: 85% !important; /* 크기 조정 */
+  z-index: 2; /* 가장 위에 표시 */
+  animation: bounceCookie 2s ease-in-out infinite; /* 점프 애니메이션 */
+}
+
+/* 토끼 쿠키 점프 애니메이션 */
+@keyframes bounceCookie {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-6px);
+  }
+}
+
+/* 모든 이미지의 기본 스타일 초기화 */
+/* 공통 이미지 스타일 초기화 */
+.popup-box img {
+  position: absolute !important; /* 강제 위치 지정 */
+  display: block !important;
+  object-fit: contain !important;
+  z-index: 1 !important; /* 기본값 설정 */
+}
+
+/* 크리스마스 배경 이미지 */
+.background-image {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1 !important;
+}
+
+/* 황금빛 광채 */
+.golden-glow {
+  top: 14% !important;
+  left: 12% !important;
+  width: 80% !important;
+  height: auto !important;
+  opacity: 0.3 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  animation: glowFloat 4s ease-in-out infinite; /* 애니메이션 적용 */
+}
+
+/* 황금빛 버블 */
+.golden-bubbles {
+  top: 12% !important;
+  left: 3% !important;
+  width: 90% !important;
+  height: auto !important;
+  opacity: 0.5 !important;
+  z-index: 3 !important;
+  animation: floatEffect 6s ease-in-out infinite;
+}
+
+/* 크리스마스 트리 */
+.christmas-tree {
+  bottom: 1% !important;
+  right: -36% !important;
+  width: 80% !important;
+  height: auto !important;
+  z-index: 4 !important;
+  animation: slightSwing 3s ease-in-out infinite; /* 살짝 흔들리는 애니메이션 */
+}
+
+/* 선물 상자 */
+.gift-boxes {
+  bottom: 5% !important;
+  left: 15% !important;
+  width: 30% !important;
+  height: auto !important;
+  z-index: 5 !important;
+  animation: bounceEffect 2s infinite; /* 가볍게 튕기는 애니메이션 */
+}
+
+/* 애니메이션 효과 */
+
+/* 부드러운 반짝임 + 수직 이동 */
+@keyframes glowFloat {
+  0%,
+  100% {
+    opacity: 0.5; /* 기본 투명도 */
+    transform: translateY(0); /* 원래 위치 */
+  }
+  50% {
+    opacity: 0.8; /* 더 밝아짐 */
+    transform: translateY(-4px); /* 살짝 위로 이동 */
+  }
+}
+
+/* 둥둥 떠다니는 애니메이션 */
+@keyframes floatEffect {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* 3. 살짝 흔들림 효과 */
+@keyframes slightSwing {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+/* 4. 가볍게 튕기는 효과 */
+@keyframes bounceEffect {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+/* 17번 박스 스타일 */
+.day[data-day="17"] {
+  position: relative; /* 자식 요소 기준 */
+  overflow: hidden; /* 넘치는 이미지 숨김 */
+}
+
+/* 문 닫힌 화면 이미지들 */
+/* 축제 프레임 (festive_frame.png) */
+.festive-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* 부모 컨테이너 채우기 */
+  height: 100%;
+  object-fit: cover;
+  z-index: 3; /* 가장 아래 레이어 */
+  pointer-events: none;
+}
+
+/* 진저브레드 커플 (gingerbread_couple.png) */
+.gingerbread-couple {
+  position: absolute;
+  bottom: 3%; /* 아래쪽에서 10% 위치 */
+  left: 52%; /* 가운데 정렬 */
+  width: 75%; /* 이미지 크기 조정 */
+  height: auto;
+  z-index: 3; /* 프레임 위에 배치 */
+  animation: floatEffect 3s ease-in-out infinite; /* 둥둥 떠다니는 애니메이션 */
+}
+
+/* 눈송이 프레임 (Snowflake_Frame_Silver.png) */
+.snowflake-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2; /* 가장 아래 레이어 */
+}
+
+/* 17번 박스의 이너박스 스타일 */
+.day[data-day="17"] .inner-box {
+  width: 90%;
+  height: 90%;
+  background-color: rgb(22, 6, 67); /* 아주 살짝 어두운 배경 */
+  border: 2px solid #fff; /* 기존 테두리 유지 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 유지 */
+}
+
+/* 겨울 옷을 입은 아이들 (Children in Winter Clothes.png) */
+.children-winter {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70% !important;
+  height: auto;
+  z-index: 2; /* 눈송이 프레임 위에 배치 */
+  animation: swingEffect 4s ease-in-out infinite; /* 좌우로 흔들리는 애니메이션 */
+}
+
+/* 애니메이션 */
+/* 둥둥 떠다니는 애니메이션 */
+@keyframes floatEffect {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
+}
+
+/* 좌우로 흔들리는 애니메이션 */
+@keyframes swingEffect {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-4deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(4eg);
+  }
+}
+
+/* 18일 날짜박스 스타일 */
+.day[data-day="18"] {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 배경 이미지: Pastel Background */
+.pastel-background {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 90% !important; /* 부모 요소 전체 채움 */
+  height: 90% !important;
+  object-fit: cover; /* 비율 유지하며 꽉 채우기 */
+  z-index: 1; /* 가장 아래 레이어 */
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* 눈송이 패턴 이미지 */
+.snowflake-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 빈티지 산타 이미지 */
+.vintage-santa {
+  position: absolute;
+  bottom: 5% !important; /* 아래쪽 여백 */
+  left: 50% !important; /* 중앙 정렬 */
+  transform: translateX(-50%) rotate(0deg);
+  width: 80% !important; /* 강제로 크기 조정 */
+  height: auto !important; /* 비율 유지 */
+  z-index: 3 !important; /* 가장 위에 표시 */
+  animation: santaSwing 3s ease-in-out infinite; /* 가볍게 흔들리는 애니메이션 */
+}
+
+/* 산타 흔들리는 애니메이션 */
+@keyframes santaSwing {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-3deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(3deg);
+  }
+}
+
+/* 19번 날짜박스 스타일 */
+.day[data-day="19"] {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 문 닫힌 상태 이미지 스타일 */
+/* 리본 프레임 이미지 */
+.ribbon-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* 부모 요소 꽉 채우기 */
+  height: 100%; /* 높이 꽉 채우기 */
+  object-fit: cover; /* 비율 유지하며 꽉 채우기 */
+  z-index: 2; /* 다른 요소들보다 위에 표시 */
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 눈송이 패턴 1 */
+.scattered-snowflakes-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  animation: slowRotate 20s infinite linear; /* 천천히 회전 애니메이션 */
+}
+
+/* 빅토리안 인형 */
+.victorian-dolls {
+  position: absolute;
+  bottom: 9%;
+  left: 14%;
+  width: 80% !important; /* 이미지 크기 */
+  height: auto;
+  z-index: 2;
+  animation: bounceEffect 3s ease-in-out infinite; /* 가볍게 튕기는 애니메이션 */
+}
+
+/* 문 열린 상태 이미지 스타일 */
+/* 황금빛 보케 라이트 */
+.golden-bokeh {
+  position: absolute;
+  top: 0;
+  left: 2%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+  animation: glowEffect 6s ease-in-out infinite; /* 부드러운 빛 반짝임 */
+}
+
+/* 별 테두리 */
+.stars-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  pointer-events: none;
+  animation: floatEffect 8s ease-in-out infinite; /* 둥둥 떠다니는 효과 */
+}
+
+/* 아이와 장식 이미지 */
+.child-decoration {
+  position: absolute;
+  bottom: 3%;
+  left: 54%;
+  transform: translateX(-50%);
+  width: 50% !important;
+  height: auto;
+  z-index: 3;
+  animation: slightSwing 4s ease-in-out infinite; /* 좌우 살짝 흔들리는 효과 */
+}
+
+/* 애니메이션 효과 */
+/* 1. 천천히 회전 */
+@keyframes slowRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(200deg);
+  }
+}
+
+/* 2. 부드러운 빛 반짝임 */
+@keyframes glowEffect {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* 3. 둥둥 떠다니는 효과 */
+@keyframes floatEffect {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* 4. 가볍게 튕기는 효과 */
+@keyframes bounceEffect {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* 5. 좌우 살짝 흔들림 */
+@keyframes slightSwing {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-4deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(4deg);
+  }
+}
+
+/* 공통 이미지 초기화 */
+.popup-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 부모 영역 채우면서 비율 유지 */
+  pointer-events: none; /* 이미지 클릭 방지 */
+}
+
+/* 20일 날짜박스 배경 패턴 */
+.holiday-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* 부모 박스 채움 */
+  height: 100%; /* 부모 박스 채움 */
+  z-index: 1; /* 가장 아래에 배치 */
+  opacity: 1;
+}
+
+/* 리스와 새 이미지 */
+.wreath-bird {
+  position: absolute;
+  top: 11%; /* 상단 여백 */
+  left: 51%; /* 가운데 정렬 */
+  transform: translateX(-50%) rotate(0deg); /* X축 정렬 및 초기 상태 */
+  width: 85% !important; /* 이미지 크기 조정 */
+  z-index: 2; /* 배경 위에 배치 */
+  animation: wreathSwing 3s ease-in-out infinite; /* 흔들리는 애니메이션 적용 */
+}
+
+/* 리스 흔들리는 애니메이션 */
+@keyframes wreathSwing {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-2deg); /* 왼쪽으로 살짝 기울임 */
+  }
+  50% {
+    transform: translateX(-50%) rotate(2deg); /* 오른쪽으로 살짝 기울임 */
+  }
+}
+
+/* 21번 박스 꾸미기 */
+/* 부모 컨테이너 초기화 */
+.day[data-day="21"] {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 골드 홀리데이 보더 1 */
+.gold-border-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 골드 홀리데이 보더 2 */
+.gold-border-2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 리본 이미지 */
+.striped-ribbon {
+  position: absolute;
+  top: 29%;
+  left: 50%;
+  width: 55%; /* 리본 크기 */
+  transform: translateX(-50%);
+  z-index: 2;
+  animation: swingRibbon 2s ease-in-out infinite; /* 좌우 흔들림 애니메이션 */
+}
+
+/* 좌우로 흔들리는 애니메이션 */
+@keyframes swingRibbon {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-2deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(2deg);
+  }
+}
+
+/* 크리스마스 아이콘 패턴 */
+.icon-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 산타와 선물 자루 */
+.santa-sack {
+  position: absolute;
+  bottom: 5%;
+  left: 50% !important;
+  width: 77% !important; /* 이미지 크기 */
+  transform: translateX(-50%);
+  z-index: 2;
+  animation: bounceSanta 3s infinite ease-in-out; /* 부드러운 튕김 효과 */
+}
+
+/* 산타 이미지 애니메이션 - 부드럽게 튀기기 */
+@keyframes bounceSanta {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
+}
+
+/* 22번 날짜박스에 대한 모든 이미지 초기화 */
+.day[data-day="22"] img {
+  all: unset; /* 모든 기본 스타일 초기화 */
+  display: block; /* 레이아웃 균일화 */
+  width: auto; /* 기본 너비 해제 */
+  max-width: 100%; /* 부모 요소를 넘지 않도록 설정 */
+  height: auto; /* 비율 유지 */
+}
+
+/* 캔디 라이트 프레임 */
+.candy-stripe-frame {
+  top: 0;
+  left: 0;
+  width: 100%; /* 부모 요소 채우기 */
+  height: 100%;
+  object-fit: cover;
+  z-index: 1; /* 가장 아래 */
+}
+
+/* 황금 눈송이 나선 */
+.day[data-day="22"] .gold-snowflake-spiral {
+  position: absolute !important;
+  top: 20% !important;
+  left: 15% !important;
+  width: 80% !important;
+  height: auto !important;
+  opacity: 0.7 !important;
+  z-index: 2 !important;
+  animation: floatEffect 6s ease-in-out infinite !important; /* 둥둥 떠다니기 */
+}
+
+/* 눈송이 클러스터 1 */
+.day[data-day="22"] .snowflake-cluster-1 {
+  position: absolute !important;
+  top: 58% !important;
+  left: 10% !important;
+  width: 30% !important;
+  height: auto !important;
+  z-index: 3 !important;
+  animation: spinEffect 8s linear infinite !important; /* 회전 애니메이션 */
+}
+
+/* 눈송이 클러스터 2 */
+.day[data-day="22"] .snowflake-cluster-2 {
+  position: absolute !important;
+  bottom: 56% !important;
+  right: 10% !important;
+  width: 30% !important;
+  height: auto !important;
+  z-index: 3 !important;
+  animation: spinEffectReverse 8s linear infinite !important; /* 반대 방향 회전 */
+}
+
+/* 22번 박스의 양초 이미지 스타일 */
+.day[data-day="22"] .christmas-candle {
+  position: absolute;
+  bottom: 15% !important; /* 위치 재조정 */
+  left: 54% !important; /* 가운데 정렬 */
+  width: 70% !important; /* 크기 강제 조정 */
+  height: auto !important; /* 비율 유지 */
+  z-index: 4 !important; /* 가장 위에 표시 */
+  animation: candleGlow 2.5s ease-in-out infinite alternate;
+}
+
+/* 애니메이션 효과 */
+
+/* 회전 애니메이션 */
+@keyframes spinEffect {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 반대 방향 회전 애니메이션 */
+@keyframes spinEffectReverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* 둥둥 떠다니는 애니메이션 */
+@keyframes floatEffect {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* 3. 양초 빛나는 효과 */
+@keyframes candleGlow {
+  0% {
+    transform: translateX(-50%) scale(0.95);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-50%) scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* 23번 이미지 꾸미기  */
+/* 눈 내리는 패턴 */
+.snowfall-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover; /* 꽉 채우기 */
+  z-index: 1; /* 가장 아래에 표시 */
+}
+
+/* 홀리 리스 종 */
+.holly-wreath {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85% !important; /* 크기 조정 */
+  height: auto !important;
+  z-index: 2; /* 중간 레이어 */
+}
+
+/* 크리스마스 종 */
+.christmas-bell {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35% !important; /* 크기 조정 */
+  height: auto !important;
+  z-index: 3; /* 가장 위에 표시 */
+  animation: bellSwing 2s ease-in-out infinite alternate; /* 종 흔들리는 애니메이션 */
+}
+
+/* 종 흔들리는 애니메이션 */
+@keyframes bellSwing {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-5deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(5deg);
+  }
+}
+
+/* 크리스마스 보더 프레임 */
+.christmas-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover; /* 비율 유지하며 꽉 채우기 */
+  z-index: 1;
+}
+
+/* 미니멀 크리스마스 트리 패턴 */
+.minimalist-tree {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover; /* 비율 유지하며 채우기 */
+  opacity: 0.5; /* 살짝 투명하게 */
+  z-index: 2;
+}
+
+/* 빈티지 리본 */
+.vintage-ribbon {
+  position: absolute;
+  top: 27%;
+  left: 51%;
+  transform: translateX(-50%);
+  width: 85% !important; /* 크기 조정 */
+  height: auto !important;
+  z-index: 3;
+  animation: floatRibbon 3s ease-in-out infinite alternate; /* 리본 둥둥 애니메이션 */
+}
+
+/* 리본 둥둥 떠다니는 애니메이션 */
+@keyframes floatRibbon {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(-3px);
+  }
+  50% {
+    transform: translateX(-50%) translateY(3px);
+  }
+}
+
+/* 24번 날짜박스 스타일 */
+.day[data-day="24"] {
+  position: relative; /* 자식 요소 배치 기준 */
+  overflow: hidden; /* 넘치는 부분 숨김 */
+}
+
+/* 눈사람 이미지 */
+.day[data-day="24"] .snowman {
+  position: absolute;
+  bottom: 8%; /* 아래쪽 위치 조정 */
+  left: 50%; /* 가로 중앙 */
+  transform: translateX(-50%);
+  width: 75% !important; /* 크기 조정 */
+  height: auto;
+  z-index: 3 !important; /* 눈사람이 맨 위에 오도록 설정 */
+  animation: floatEffect 3s ease-in-out infinite; /* 둥둥 떠다니는 효과 */
+}
+
+/* 둥둥 떠다니는 애니메이션 */
+@keyframes floatEffect {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
+}
+
+/* 금빛 장식 */
+.day[data-day="24"] .gold-decoration {
+  position: absolute;
+  top: 5%; /* 상단에서부터 5% */
+  left: 5%; /* 좌측에서부터 5% */
+  width: 90%; /* 전체 너비의 90% */
+  height: auto;
+  z-index: 1 !important; /* 눈사람 아래 레이어 */
+}
+
+/* 네모 프레임 */
+.day[data-day="24"] .square-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* 부모 요소 꽉 채우기 */
+  height: 100%;
+  object-fit: contain; /* 비율 유지하며 꽉 채우기 */
+  z-index: 2 !important; /* 가장 아래에 표시 */
+}
+
+/* 트리 1 (왼쪽 트리) */
+.tree-1 {
+  position: absolute; /* 화면에 위치를 고정 */
+  bottom: -40; /* 화면 하단에서 시작 */
+  left: -10%; /* 왼쪽에서 5% 떨어진 위치 */
+  width: 32% !important; /* 트리 너비 조정 */
+  height: auto; /* 비율 유지 */
+  z-index: 2; /* 뒤에 배치 */
+  opacity: 0; /* 초기 상태: 투명 */
+  animation: fade-in-1 2s ease-out forwards, sway-1 3s ease-in-out infinite; /* 개별 애니메이션 */
+  animation-delay: 0.5s; /* 등장 딜레이 */
+}
+
+/* 트리 2 (오른쪽 트리) */
+.tree-2 {
+  position: absolute; /* 화면에 위치를 고정 */
+  bottom: -40; /* 화면 하단에서 시작 */
+  right: -11%; /* 오른쪽에서 5% 떨어진 위치 */
+  width: 32% !important; /* 트리 너비 조정 */
+  height: auto; /* 비율 유지 */
+  z-index: 2; /* 뒤에 배치 */
+  opacity: 0; /* 초기 상태: 투명 */
+  animation: fade-in-2 2s ease-out forwards, sway-2 3s ease-in-out infinite; /* 개별 애니메이션 */
+  animation-delay: 1s; /* 등장 딜레이 */
+}
+
+/* 트리 1 - 부드럽게 등장 */
+@keyframes fade-in-1 {
+  from {
+    opacity: 0;
+    transform: translateY(30px); /* 아래에서 위로 등장 */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 트리 2 - 부드럽게 등장 */
+@keyframes fade-in-2 {
+  from {
+    opacity: 0;
+    transform: translateY(30px); /* 아래에서 위로 등장 */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 트리 1 - 흔들리는 효과 */
+@keyframes sway-1 {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(1.5deg); /* 살짝 흔들림 */
+  }
+}
+
+/* 트리 2 - 다른 흔들림 설정 */
+@keyframes sway-2 {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-1.5deg); /* 반대 방향 흔들림 */
+  }
+}
+
+/* 하단 금색 테두리 공통 스타일 */
+.golden-border-bottom {
+  position: absolute;
+  bottom: -22.5%; /* 화면 하단에 고정 */
+  height: auto;
+  z-index: 3; /* 다른 요소 위에 표시 */
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 개별 이미지 위치 및 크기 */
+.bottom-1 {
+  left: 0;
+  width: 25%;
+}
+.bottom-2 {
+  left: 25%;
+  width: 25%;
+}
+.bottom-3 {
+  left: 50%;
+  width: 25%;
+}
+.bottom-4 {
+  left: 75%;
+  width: 25%;
+}
+
+/* 왼쪽 금색 테두리 공통 스타일 */
+.golden-border-left {
+  position: absolute;
+  left: -7.5%; /* 화면 왼쪽 고정 */
+  width: auto; /* 비율 유지 */
+  z-index: 3;
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 개별 이미지 높이 및 위치 */
+.left-1 {
+  top: 0; /* 화면 상단부터 시작 */
+  height: 33.33%; /* 화면의 1/3 높이 */
+}
+
+.left-2 {
+  top: 33.33%; /* 두 번째 시작점 */
+  height: 33.33%;
+}
+
+.left-3 {
+  top: 66.66%; /* 세 번째 시작점 */
+  height: 33.33%;
+}
+
+/* 오른쪽 금색 테두리 공통 스타일 */
+.golden-border-right {
+  position: absolute;
+  right: -7.5%; /* 화면 오른쪽 고정 */
+  width: auto;
+  z-index: 3;
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 개별 이미지 높이 및 위치 */
+.right-1 {
+  top: 0; /* 화면 상단부터 시작 */
+  height: 33.33%; /* 화면의 1/3 높이 */
+}
+
+.right-2 {
+  top: 33.33%; /* 두 번째 시작점 */
+  height: 33.33%;
+}
+
+.right-3 {
+  top: 66.66%; /* 세 번째 시작점 */
+  height: 33.33%;
+}
+
+/* 글 */
+/* 상단 텍스트 컨테이너 */
+.header-text {
+  position: absolute;
+  top: 122px; /* 위치 조정 */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+}
+
+/* Merry Christmas 스타일 (영어 폰트 적용) */
+.typing-text {
+  font-size: 3.3rem;
+  font-weight: 400;
+  color: #fff;
+  font-family: "tangier", sans-serif; /* 영어 폰트 적용 */
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  width: 0;
+  animation: typing 2s steps(15, end) forwards; /* 타이핑 애니메이션 */
+}
+
+/* 한글 문구 스타일 (한글 폰트 적용) */
+.fade-in-text {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #fff;
+  font-family: "gulim", sans-serif; /* 한글 폰트 적용 */
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  width: 0;
+  opacity: 0; /* 초기 상태: 투명 */
+  transition: opacity 1s ease; /* 부드럽게 등장 */
+}
+
+/* 타이핑 애니메이션 */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* 상단 이미지 컨테이너 */
+.header-images {
+  position: absolute; /* 페이지 상단에 고정 */
+  top: 0; /* 최상단 */
+  left: 0;
+  width: 100%; /* 전체 너비 */
+  z-index: 5; /* 다른 요소 위에 배치 */
+  pointer-events: none; /* 마우스 이벤트 방지 */
+}
+
+/* 공통 이미지 스타일 */
+.golden-ornament,
+.fairy-lights,
+.bow-garland {
+  position: absolute; /* 개별 위치 조정을 위해 설정 */
+  object-fit: contain; /* 이미지 비율을 유지하면서 조정 */
+  pointer-events: none; /* 마우스 이벤트 방지 */
+  animation: glow 2s ease-in-out infinite alternate; /* 부드럽게 반짝이는 애니메이션 */
+}
+
+/* Golden Ornaments - 개별 조정 */
+.ornament-left {
+  top: -29px;
+  left: -25px;
+  width: 500px;
+  height: 450px;
+  height: 450px;
+  z-index: 2;
+}
+
+.ornament-right {
+  top: -29px;
+  right: -20px;
+  width: 500px;
+  height: 450px;
+  z-index: 2;
+}
+
+/* 새 Golden Ornaments 이미지 스타일 */
+.ornament-new {
+  position: absolute; /* 개별 조정 */
+  top: -29px; /* 원하는 위치에 맞게 상단 여백 조정 */
+  left: 27.5%; /* 화면 중앙과 왼쪽 사이에 위치 */
+  width: 400px; /* 이미지 크기 */
+  height: auto; /* 비율 유지 */
+  z-index: 1;
+}
+
+.ornament-new-2 {
+  position: absolute; /* 개별 조정 */
+  top: -29px; /* 원하는 위치에 맞게 상단 여백 조정 */
+  left: 50%; /* 화면 중앙과 왼쪽 사이에 위치 */
+  width: 400px; /* 이미지 크기 */
+  height: auto; /* 비율 유지 */
+  z-index: 1;
+}
+
+/* Golden Fairy Lights - 개별 조정 */
+.fairy-light-1 {
+  top: -27px;
+  left: 0;
+  width: 550px;
+  height: auto;
+}
+
+.fairy-light-2 {
+  top: -27px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 550px;
+  height: auto;
+}
+
+.fairy-light-3 {
+  top: -27px;
+  right: 0;
+  width: 550px;
+  height: auto;
+}
+
+/* Glow Animation (빛나는 효과) */
+@keyframes glow {
+  0% {
+    filter: brightness(92%); /* 기본 밝기 */
+  }
+  50% {
+    filter: brightness(130%); /* 반짝이며 밝아짐 */
+  }
+  100% {
+    filter: brightness(92%); /* 원래 밝기로 돌아옴 */
+  }
+}
+
+/* Bow Garland - 개별 조정 */
+.bow-garland {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 430px;
+  height: auto;
+  z-index: 10; /* 가장 앞에 위치 */
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    filter: brightness(95%);
+  }
+  100% {
+    filter: brightness(120%); /* 밝기가 살짝 증가 */
+  }
+}
+
+/* 눈 내리는 배경 */
+.snow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.3; /* 눈송이 투명도 낮춤 */
+  pointer-events: none; /* 눈송이 클릭 방지 */
+  animation: fall linear infinite; /* 영원히 반복되는 애니메이션 */
+  animation-duration: 10s; /* 애니메이션 지속 시간 추가 (10초) */
+  z-index: -1; /* 다른 요소 뒤에 배치 */
+}
+
+/* 눈송이 애니메이션 */
+@keyframes fall {
+  from {
+    transform: translateY(-100vh); /* 화면 최상단에서 시작 */
+  }
+  to {
+    transform: translateY(100vh); /* 화면 최하단까지 이동 */
+  }
+}
+
+/* 배경 이미지 컨테이너 */
+.background-container {
+  position: fixed; /* 화면에 고정 */
+  top: 0;
+  left: 0;
+  width: 100%; /* 전체 너비 */
+  height: 100%; /* 전체 높이 */
+  z-index: -1; /* 다른 콘텐츠 뒤에 배치 */
+  overflow: hidden; /* 넘치는 부분 숨김 */
+}
+
+/* 배경 이미지 스타일 */
+.background-image {
+  width: 100%; /* 화면에 맞게 채움 */
+  height: 100%;
+  object-fit: cover; /* 비율 유지하며 화면 꽉 채움 */
+  opacity: 0.3; /* 이미지 투명도 설정 (0.3 = 30% 투명) */
+}
+
+/* 눈송이 이미지 오버레이 */
+.overlay-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* 배경 이미지 위, 콘텐츠 아래 */
+  overflow: hidden;
+  pointer-events: none; /* 마우스 이벤트 방지 */
+}
+
+/* 눈송이 이미지 스타일 */
+.snowflakes-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15; /* 눈송이 이미지 투명도 */
+  animation: fade-move 10s ease-in-out infinite; /* 애니메이션 적용 */
+}
+
+/* 애니메이션 정의 */
+@keyframes fade-move {
+  0% {
+    transform: translateY(0); /* 시작 위치 */
+    opacity: 0.15; /* 시작 투명도 */
+  }
+  50% {
+    transform: translateY(10px); /* 아래로 10px 이동 */
+    opacity: 0.25; /* 중간 투명도 */
+  }
+  100% {
+    transform: translateY(0); /* 원래 위치로 돌아옴 */
+    opacity: 0.15; /* 다시 시작 투명도 */
+  }
+}
