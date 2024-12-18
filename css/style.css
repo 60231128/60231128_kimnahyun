@@ -361,21 +361,6 @@ body {
   z-index: 2; /* 가장 아래 */
 }
 
-/* 세 번째 이미지: Cookie Wreath */
-.door-content-image wreath-image {
-  bottom: 3%;
-  right: 1%;
-  width: 100%;
-  z-index: 3; /* 중간 레이어 */
-}
-
-/* 네 번째 이미지: Candy Cane */
-.door-content-image candy-cane-image {
-  top: 32%;
-  right: 3%;
-  width: 30%;
-  z-index: 3; /* 가장 위에 표시 */
-}
 
 /* 문이 닫혀 있을 때 산타 이미지 숨김 */
 .door:not(.open) .door-content img.content-image {
