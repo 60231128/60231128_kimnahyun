@@ -362,7 +362,7 @@ body {
 }
 
 /* 세 번째 이미지: Cookie Wreath */
-.door-content img.wreath-image {
+.door-content-image wreath-image {
   bottom: 3%;
   right: 1%;
   width: 100%;
@@ -370,7 +370,7 @@ body {
 }
 
 /* 네 번째 이미지: Candy Cane */
-.door-content img.candy-cane-image {
+.door-content-image candy-cane-image {
   top: 32%;
   right: 3%;
   width: 30%;
@@ -2371,7 +2371,7 @@ body {
 /* 하단 금색 테두리 공통 스타일 */
 .golden-border-bottom {
   position: absolute;
-  bottom: -22.5%; /* 화면 하단에 고정 */
+  bottom: -25%; /* 화면 하단에 고정 */
   height: auto;
   z-index: 3; /* 다른 요소 위에 표시 */
   pointer-events: none; /* 클릭 방지 */
@@ -2398,7 +2398,7 @@ body {
 /* 왼쪽 금색 테두리 공통 스타일 */
 .golden-border-left {
   position: absolute;
-  left: -7.5%; /* 화면 왼쪽 고정 */
+  left: -7%; /* 화면 왼쪽 고정 */
   width: auto; /* 비율 유지 */
   z-index: 3;
   pointer-events: none; /* 클릭 방지 */
@@ -2423,7 +2423,7 @@ body {
 /* 오른쪽 금색 테두리 공통 스타일 */
 .golden-border-right {
   position: absolute;
-  right: -7.5%; /* 화면 오른쪽 고정 */
+  right: -7%; /* 화면 오른쪽 고정 */
   width: auto;
   z-index: 3;
   pointer-events: none; /* 클릭 방지 */
@@ -2449,7 +2449,7 @@ body {
 /* 상단 텍스트 컨테이너 */
 .header-text {
   position: absolute;
-  top: 122px; /* 위치 조정 */
+  top: 135px; /* 위치 조정 */
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -2535,8 +2535,8 @@ body {
 .ornament-new {
   position: absolute; /* 개별 조정 */
   top: -29px; /* 원하는 위치에 맞게 상단 여백 조정 */
-  left: 27.5%; /* 화면 중앙과 왼쪽 사이에 위치 */
-  width: 400px; /* 이미지 크기 */
+  left: 23%; /* 화면 중앙과 왼쪽 사이에 위치 */
+  width: 530px; /* 이미지 크기 */
   height: auto; /* 비율 유지 */
   z-index: 1;
 }
@@ -2545,7 +2545,7 @@ body {
   position: absolute; /* 개별 조정 */
   top: -29px; /* 원하는 위치에 맞게 상단 여백 조정 */
   left: 50%; /* 화면 중앙과 왼쪽 사이에 위치 */
-  width: 400px; /* 이미지 크기 */
+  width: 530px; /* 이미지 크기 */
   height: auto; /* 비율 유지 */
   z-index: 1;
 }
@@ -2591,7 +2591,7 @@ body {
   top: -5px;
   left: 50%;
   transform: translateX(-50%);
-  width: 430px;
+  width: 480px;
   height: auto;
   z-index: 10; /* 가장 앞에 위치 */
   animation: glow 1s ease-in-out infinite alternate;
